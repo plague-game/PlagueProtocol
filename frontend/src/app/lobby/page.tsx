@@ -7,15 +7,15 @@ const rooms = [
     players: 4,
     max: 8,
     prize: '80 XLM',
-    status: 'online',
+    status: 'waiting',
   },
   {
     name: 'Infection Testnet',
     desc: 'Contract event replay room',
-    players: 2,
+    players: 6,
     max: 6,
     prize: '60 XLM',
-    status: 'idle',
+    status: 'active',
   },
   {
     name: 'Zero Proof Squad',
@@ -23,20 +23,22 @@ const rooms = [
     players: 5,
     max: 10,
     prize: '100 XLM',
-    status: 'alert',
+    status: 'waiting',
   },
 ]
 
 const statusColor: Record<string, string> = {
-  online: '#1a7a4a',
-  idle: '#f5c518',
-  alert: '#e63329',
+  waiting: '#1a7a4a',
+  active:  '#f5c518',
+  full:    '#e63329',
+  ended:   '#4a5568',
 }
 
 const statusLabel: Record<string, string> = {
-  online: 'Join',
-  idle: 'Spectate',
-  alert: 'Queue',
+  waiting: 'Join',
+  active:  'Spectate',
+  full:    'Full',
+  ended:   'Ended',
 }
 
 export default function LobbyPage() {
@@ -67,7 +69,7 @@ export default function LobbyPage() {
             ACTIVE ROOMS
           </h1>
           <p className="max-w-xl font-body text-lg" style={{ color: '#b4c1d1' }}>
-            Join an existing room, create your own, and stake XLM before the infection spreads.
+            Join a waiting room, stake XLM, and lock in your role before the game starts. Once a game begins, the join window closes permanently.
           </p>
         </div>
       </header>
@@ -208,6 +210,14 @@ export default function LobbyPage() {
                           <span className="font-display text-lg leading-none" style={{ color: '#f0f4f8' }}>
                             {room.name}
                           </span>
+                          {room.status === 'active' && (
+                            <span
+                              className="rounded-full px-2 py-0.5 font-mono text-[10px] uppercase tracking-widest"
+                              style={{ backgroundColor: 'rgba(245,197,24,0.15)', color: '#f5c518', border: '1px solid rgba(245,197,24,0.3)' }}
+                            >
+                              In Progress
+                            </span>
+                          )}
                         </div>
                         <p className="mt-1 font-mono text-xs" style={{ color: '#7a8592' }}>
                           {room.desc}
@@ -229,9 +239,9 @@ export default function LobbyPage() {
                         <button
                           className="rounded border px-4 py-2 font-mono text-xs font-bold uppercase tracking-wider transition-all hover:opacity-90"
                           style={{
-                            backgroundColor: room.status === 'online' ? '#e63329' : 'transparent',
-                            borderColor: room.status === 'online' ? '#e63329' : 'rgba(168,85,247,0.5)',
-                            color: room.status === 'online' ? '#f0f4f8' : '#a855f7',
+                            backgroundColor: room.status === 'waiting' ? '#e63329' : 'transparent',
+                            borderColor: room.status === 'waiting' ? '#e63329' : 'rgba(168,85,247,0.5)',
+                            color: room.status === 'waiting' ? '#f0f4f8' : '#a855f7',
                           }}
                         >
                           {statusLabel[room.status]}

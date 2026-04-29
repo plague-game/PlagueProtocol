@@ -30,6 +30,15 @@ export interface Player {
 
 // ─── Room ──────────────────────────────────────────────────────────────────
 
+/**
+ * Join window: players may only call join_room while status === 'waiting'.
+ * Once the host calls start_game the window closes permanently:
+ *   - Roles are assigned (VRF) — late joiners have no role
+ *   - Pot is fixed — adding a stake mid-game breaks payout math
+ *   - ZK commitments are registered — a missing commitment means no valid proofs
+ * Players who are NOT in the room when the game starts may spectate (socket
+ * subscription) but cannot participate or receive winnings.
+ */
 export type RoomStatus = 'waiting' | 'starting' | 'active' | 'ended'
 
 export interface Room {
@@ -40,6 +49,8 @@ export interface Room {
   maxPlayers: number
   minPlayers: number
   stakeAmount: bigint
+  /** Fee per paid proof (after the free one); added to pot when paid */
+  proofFee: bigint
   status: RoomStatus
   currentRound: number
   maxRounds: number

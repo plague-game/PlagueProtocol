@@ -137,32 +137,42 @@ impl PlagueGame {
         panic_with_error!(&env, 1u32); // placeholder
     }
 
-    /// Player joins a room and stakes XLM
+    /// Player joins a room and stakes XLM.
+    ///
+    /// JOIN WINDOW: only accepted while room.status == Waiting.
+    /// Once start_game is called the window closes permanently:
+    ///   - VRF role assignment is in progress / complete
+    ///   - Pot is fixed; adding mid-game breaks payout math
+    ///   - ZK commitments are being submitted; missing commitment = invalid proofs
+    /// Attempting to join a Starting, Active, or Ended room MUST return an error.
     ///
     /// TODO: Issue #41
     pub fn join_room(env: Env, player: Address, room_id: u64) {
         player.require_auth();
         // TODO: Issue #41
-        // 1. Load room, verify status is Waiting
-        // 2. Check player not already in room
-        // 3. Check room not full
-        // 4. Transfer stake_amount from player to contract (escrow)
-        // 5. Add player to room.players
-        // 6. Update room pot
-        // 7. Emit player_joined event
+        // 1. Load room
+        // 2. Verify room.status == Waiting — reject with error if not
+        // 3. Check player not already in room
+        // 4. Check room not full (players.len() < config.max_players)
+        // 5. Transfer stake_amount from player to contract (escrow)
+        // 6. Add player to room.players
+        // 7. Update room pot
+        // 8. Emit player_joined event
     }
 
-    /// Host starts the game — triggers VRF role assignment off-chain
-    /// Players must submit role commitments before first round begins
+    /// Host starts the game — closes the join window and triggers VRF role assignment.
+    /// After this call, no new players may join. Role commitments must be
+    /// submitted by all current players before Round 1 begins.
     ///
     /// TODO: Issue #42
     pub fn start_game(env: Env, host: Address, room_id: u64) {
         host.require_auth();
         // TODO: Issue #42
         // 1. Verify caller is host
-        // 2. Verify min_players reached
-        // 3. Set room status to Starting
-        // 4. Emit game_starting event (backend picks this up for VRF)
+        // 2. Verify room.status == Waiting
+        // 3. Verify players.len() >= config.min_players
+        // 4. Set room.status = Starting  ← join window now permanently closed
+        // 5. Emit game_starting event (backend picks this up for VRF)
     }
 
     /// Player submits their ZK role commitment

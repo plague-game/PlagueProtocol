@@ -10,18 +10,31 @@ export function setupSocketHandlers(io: Server) {
     logger.info(`Client connected: ${socket.id}`)
 
     /**
-     * Player joins a socket room for real-time updates
+     * Subscribe to a room's real-time events (socket only — NOT game join).
+     *
+     * This handler lets any connected client receive events for a room.
+     * It does NOT add the player to the game or grant participation rights.
+     *
+     * Game joining (staking, role commitment) is done via the contract:
+     *   contract.join_room(room_id)  — only valid while room.status == 'waiting'
+     *
+     * Players who subscribe after status is 'active' can spectate (receive
+     * events) but will never receive private infection_assigned events, cannot
+     * vote, cannot submit proofs, and are not eligible for payouts.
+     *
      * TODO: Issue #20
      */
     socket.on('join_room', async ({ roomId, playerAddress }: { roomId: string; playerAddress: string }) => {
       // TODO: Issue #20
       // 1. Validate roomId exists in DB/Redis
-      // 2. Verify playerAddress is in the room
-      // 3. socket.join(roomId)
-      // 4. Broadcast player_joined to room
-      // 5. Send current room state to connecting player
+      // 2. socket.join(roomId) — unconditional (spectating is always allowed)
+      // 3. If playerAddress is in the room's player list:
+      //      send current full room state (role, status, round, etc.)
+      // 4. Else (spectator):
+      //      send public room state only (no private role/infection data)
+      // 5. Broadcast player_joined only if playerAddress is a registered participant
       socket.join(roomId)
-      logger.info(`${socket.id} joined room ${roomId}`)
+      logger.info(`${socket.id} subscribed to room ${roomId}`)
     })
 
     /**

@@ -4,6 +4,10 @@ export type RoundPhase = 'infection' | 'discussion' | 'voting' | 'reveal' | 'end
 export type GameOutcome = 'clean_win' | 'infected_win' | 'max_rounds_draw'
 
 /**
+ * Join window: contract join_room only accepted while status === 'waiting'.
+ * start_game closes the window permanently. Late arrivals may subscribe to
+ * socket events for spectating but cannot join the game or earn winnings.
+ *
  * Win conditions (checked after every Reveal phase, alive counts only):
  *   clean_win    : infected_alive === 0
  *   infected_win : infected_alive >= clean_alive  (includes 1v1)
