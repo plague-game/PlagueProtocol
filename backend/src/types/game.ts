@@ -8,6 +8,10 @@ export type GameOutcome = 'clean_win' | 'infected_win' | 'max_rounds_draw'
  * start_game closes the window permanently. Late arrivals may subscribe to
  * socket events for spectating but cannot join the game or earn winnings.
  *
+ * Room expiry: a waiting room that does not reach min_players before
+ * expires_at is auto-closed by the backend expiry monitor. All staked
+ * amounts are refunded via the contract. Subscribers receive room_expired.
+ *
  * Win conditions (checked after every Reveal phase, alive counts only):
  *   clean_win    : infected_alive === 0
  *   infected_win : infected_alive >= clean_alive  (includes 1v1)
@@ -30,6 +34,7 @@ export type GameEventType =
   | 'infection_assigned'       // private: only sent to the newly infected player
   | 'game_ended'
   | 'pot_drained'
+  | 'room_expired'             // broadcast: waiting room timed out — stakes refunded
 
 export interface GameEvent {
   type: GameEventType

@@ -64,6 +64,14 @@ pub struct RoomConfig {
     pub round_duration_secs: u64,
     pub discussion_duration_secs: u64,
     pub voting_duration_secs: u64,
+    /// How long a waiting room is open for players to join.
+    /// If min_players is not reached before created_at + expiry_secs,
+    /// the room is expired: status → Ended, all stakes refunded.
+    /// Default: 600 (10 minutes). Configurable per room at creation time.
+    pub expiry_secs: u64,
+    /// Fee charged per innocence proof after the player's one free proof.
+    /// Paid proofs are added to the pot. Zero = unlimited free proofs.
+    pub proof_fee: i128,
 }
 
 #[contracttype]
@@ -77,6 +85,9 @@ pub struct Room {
     pub current_round: u32,
     pub pot: i128,
     pub created_at: u64,
+    /// Unix timestamp after which this room expires if still Waiting.
+    /// Set to created_at + config.expiry_secs at creation time.
+    pub expires_at: u64,
     pub started_at: u64,
 }
 
@@ -146,18 +157,23 @@ impl PlagueGame {
     ///   - ZK commitments are being submitted; missing commitment = invalid proofs
     /// Attempting to join a Starting, Active, or Ended room MUST return an error.
     ///
+    /// EXPIRY CHECK: if env.ledger().timestamp() >= room.expires_at and the room
+    /// is still Waiting, this call must also fail — the room is effectively dead
+    /// and will be cleaned up by expire_room.
+    ///
     /// TODO: Issue #41
     pub fn join_room(env: Env, player: Address, room_id: u64) {
         player.require_auth();
         // TODO: Issue #41
         // 1. Load room
         // 2. Verify room.status == Waiting — reject with error if not
-        // 3. Check player not already in room
-        // 4. Check room not full (players.len() < config.max_players)
-        // 5. Transfer stake_amount from player to contract (escrow)
-        // 6. Add player to room.players
-        // 7. Update room pot
-        // 8. Emit player_joined event
+        // 3. Verify env.ledger().timestamp() < room.expires_at — reject if expired
+        // 4. Check player not already in room
+        // 5. Check room not full (players.len() < config.max_players)
+        // 6. Transfer stake_amount from player to contract (escrow)
+        // 7. Add player to room.players
+        // 8. Update room pot
+        // 9. Emit player_joined event
     }
 
     /// Host starts the game — closes the join window and triggers VRF role assignment.
@@ -312,6 +328,33 @@ impl PlagueGame {
         // 2. Identify winning faction alive players
         // 3. Transfer pot / winners.len() to each winner via token contract
         // 4. Emit pot_drained event per winner
+    }
+
+    /// Expire a waiting room that has passed its expiry timestamp.
+    ///
+    /// Permissionless: anyone may call this once env.ledger().timestamp() >= room.expires_at
+    /// and room.status == Waiting. This enables the backend expiry monitor
+    /// to clean up without needing special privileges, and players can also
+    /// trigger cleanup themselves.
+    ///
+    /// Effect:
+    ///   - Sets room.status = Ended
+    ///   - Refunds each player's stake_amount back from contract escrow
+    ///   - Emits room_expired event
+    ///
+    /// If the room has already started or ended, this call is a no-op / error.
+    ///
+    /// TODO: Issue #47
+    pub fn expire_room(env: Env, room_id: u64) {
+        // TODO: Issue #47
+        // 1. Load room
+        // 2. Verify room.status == Waiting — if not, return (already started or ended)
+        // 3. Verify env.ledger().timestamp() >= room.expires_at — if not, reject
+        // 4. Set room.status = Ended
+        // 5. For each player in room.players:
+        //      transfer stake_amount back to player via token contract
+        // 6. Store updated room
+        // 7. Emit room_expired event
     }
 
     /// Read-only: Get room state

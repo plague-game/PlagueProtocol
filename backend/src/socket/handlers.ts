@@ -5,6 +5,35 @@ import type { GameEvent } from '../types/game'
 // TODO: Issue #20 - Implement full socket event handlers
 // TODO: Issue #21 - Implement room state sync via Redis
 
+/**
+ * Room expiry monitor — runs on a fixed interval server-side.
+ *
+ * Checks all rooms with status === 'waiting' whose expires_at has passed.
+ * For each expired room:
+ *   1. Calls contract.expire_room(room_id) — refunds all staked players.
+ *   2. Broadcasts a room_expired event to all room subscribers.
+ *   3. Removes the room from the active room registry.
+ *
+ * This runs independently of any client socket connection, so expiry is
+ * enforced even if no player is watching the room at that moment.
+ *
+ * Default check interval: 15 seconds.
+ * TODO: Issue #47 — implement DB/Redis room registry and contract call
+ */
+export function startRoomExpiryMonitor(io: Server, intervalMs = 15_000): NodeJS.Timeout {
+  return setInterval(async () => {
+    // TODO: Issue #47
+    // 1. Load all rooms with status === 'waiting' from DB/Redis
+    // 2. Filter: room.expires_at <= Date.now()
+    // 3. For each expired room:
+    //    a. Call contract.expire_room(room_id) — this refunds stakes on-chain
+    //    b. Broadcast room_expired to all subscribers: io.to(roomId).emit('game_event', {...})
+    //    c. Remove room from DB/Redis registry
+    //    d. Log expiry
+    logger.info('[expiry-monitor] tick — TODO: check expired waiting rooms')
+  }, intervalMs)
+}
+
 export function setupSocketHandlers(io: Server) {
   io.on('connection', (socket: Socket) => {
     logger.info(`Client connected: ${socket.id}`)

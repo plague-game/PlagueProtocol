@@ -10,6 +10,7 @@ export function useGameState(roomId: string | null) {
     room: null,
     localPlayer: null,
     currentRound: null,
+    result: null,
     isConnected: false,
     isLoading: false,
     error: null,

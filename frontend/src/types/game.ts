@@ -55,6 +55,13 @@ export interface Room {
   currentRound: number
   maxRounds: number
   createdAt: number
+  /**
+   * Unix ms timestamp after which a waiting room auto-expires.
+   * Set at creation time: createdAt + (expiry_secs * 1000).
+   * If the room has not reached min_players by this time, status → 'ended'
+   * and all stakes are refunded. Only relevant while status === 'waiting'.
+   */
+  expiresAt: number
   startedAt?: number
   endedAt?: number
 }
@@ -240,6 +247,7 @@ export type GameEventType =
   | 'infection_assigned'       // private: only sent to the newly infected player
   | 'game_ended'
   | 'pot_drained'
+  | 'room_expired'             // broadcast: waiting room timed out without filling — stakes refunded
 
 export interface GameEvent {
   type: GameEventType
