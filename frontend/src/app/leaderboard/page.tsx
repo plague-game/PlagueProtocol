@@ -42,10 +42,10 @@ export default function LeaderboardPage() {
           <div className="space-y-12">
             <div className="space-y-6 text-center">
               <p className="text-accent-coral font-mono uppercase tracking-[0.2em] font-bold text-sm">Rankings & Achievements</p>
-              <h1 className="font-display text-6xl sm:text-7xl lg:text-8xl font-black leading-tight text-text-primary">
+              <h1 className="font-display text-6xl sm:text-7xl lg:text-8xl font-black leading-tight text-foreground">
                 Global <span className="bg-gradient-to-r from-accent-purple to-accent-pink bg-clip-text text-transparent">Leaderboard</span>
               </h1>
-              <p className="text-xl sm:text-2xl text-text-secondary max-w-2xl mx-auto">
+              <p className="text-xl sm:text-2xl text-foreground-secondary max-w-2xl mx-auto">
                 Compete against the best players in the world. Prove your strategy, earn your rank.
               </p>
             </div>
@@ -81,7 +81,7 @@ export default function LeaderboardPage() {
             {/* Leaderboard Table */}
             <div className="space-y-6">
               {/* Header Row */}
-              <div className="card-premium p-6 grid grid-cols-[60px_1fr_120px_120px_120px] gap-6 text-xs font-mono uppercase tracking-wider text-text-muted font-bold rounded-xl border-2 border-accent-purple/40">
+              <div className="card-premium p-6 grid grid-cols-[60px_1fr_120px_120px_120px] gap-6 text-xs font-mono uppercase tracking-wider text-foreground-muted font-bold rounded-xl border-2 border-accent-purple/40">
                 <div>Rank</div>
                 <div>Player</div>
                 <div>Wins</div>
@@ -113,7 +113,7 @@ export default function LeaderboardPage() {
                           <span className="text-accent-pink">🥉</span>
                         )}
                         {player.rank > 3 && (
-                          <span className="text-text-muted">#{player.rank}</span>
+                          <span className="text-foreground-muted">#{player.rank}</span>
                         )}
                       </span>
                     </div>
@@ -124,29 +124,29 @@ export default function LeaderboardPage() {
                         {player.name.charAt(0)}
                       </div>
                       <div>
-                        <p className="font-bold text-text-primary group-hover:text-accent-cyan transition-colors">
+                        <p className="font-bold text-foreground group-hover:text-accent-cyan transition-colors">
                           {player.name}
                         </p>
-                        <p className="text-xs text-text-muted">{player.badge}</p>
+                        <p className="text-xs text-foreground-muted">{player.badge}</p>
                       </div>
                     </div>
 
                     {/* Wins */}
                     <div className="text-right">
-                      <p className="font-bold text-text-primary">{player.wins}</p>
-                      <p className="text-xs text-text-muted">wins</p>
+                      <p className="font-bold text-foreground">{player.wins}</p>
+                      <p className="text-xs text-foreground-muted">wins</p>
                     </div>
 
                     {/* Win Rate */}
                     <div className="text-right">
                       <p className="font-bold text-accent-lime">{player.winRate}%</p>
-                      <p className="text-xs text-text-muted">rate</p>
+                      <p className="text-xs text-foreground-muted">rate</p>
                     </div>
 
                     {/* Earnings */}
                     <div className="text-right">
                       <p className="font-bold text-accent-pink">{player.earnings}</p>
-                      <p className="text-xs text-text-muted">XLM</p>
+                      <p className="text-xs text-foreground-muted">XLM</p>
                     </div>
                   </button>
                 ))}
@@ -175,24 +175,24 @@ export default function LeaderboardPage() {
               <div className="relative group">
                 <div className="absolute -inset-0.5 bg-gradient-to-r from-accent-cyan to-accent-lime rounded-2xl opacity-0 group-hover:opacity-100 transition-all blur" />
                 <div className="card-premium p-10 space-y-6 relative rounded-2xl border-2 border-accent-cyan/40">
-                  <h3 className="font-display text-2xl font-bold text-text-primary">
+                  <h3 className="font-display text-2xl font-bold text-foreground">
                     Your Stats
                   </h3>
                   <div className="space-y-4">
                     <div className="flex justify-between items-center">
-                      <span className="text-sm text-text-muted font-bold">Rank</span>
+                      <span className="text-sm text-foreground-muted font-bold">Rank</span>
                       <span className="font-display text-2xl font-bold text-accent-cyan">#247</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-sm text-text-muted font-bold">Wins</span>
+                      <span className="text-sm text-foreground-muted font-bold">Wins</span>
                       <span className="font-display text-2xl font-bold text-accent-lime">12</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-sm text-text-muted font-bold">Win Rate</span>
+                      <span className="text-sm text-foreground-muted font-bold">Win Rate</span>
                       <span className="font-display text-2xl font-bold text-accent-purple">55%</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-sm text-text-muted font-bold">Earnings</span>
+                      <span className="text-sm text-foreground-muted font-bold">Earnings</span>
                       <span className="font-display text-2xl font-bold text-accent-pink">85.4 XLM</span>
                     </div>
                   </div>
@@ -204,7 +204,7 @@ export default function LeaderboardPage() {
 
               {/* Achievements */}
               <div className="space-y-6">
-                <h3 className="font-display text-2xl font-bold text-text-primary">
+                <h3 className="font-display text-2xl font-bold text-foreground">
                   Achievements
                 </h3>
                 <div className="space-y-3">
@@ -212,8 +212,8 @@ export default function LeaderboardPage() {
                     <div key={idx} className="card-premium p-5 flex items-center gap-4 rounded-xl border-2 border-accent-purple/20 hover:border-accent-purple/50 transition-all">
                       <span className="text-4xl">{achievement.icon}</span>
                       <div>
-                        <p className="text-sm font-bold text-text-primary">{achievement.name}</p>
-                        <p className="text-xs text-text-muted">{achievement.desc}</p>
+                        <p className="text-sm font-bold text-foreground">{achievement.name}</p>
+                        <p className="text-xs text-foreground-muted">{achievement.desc}</p>
                       </div>
                     </div>
                   ))}
@@ -222,88 +222,26 @@ export default function LeaderboardPage() {
 
               {/* Season Info */}
               <div className="card-premium p-8 space-y-6 rounded-2xl border-2 border-accent-lime/40">
-                <h3 className="font-display text-2xl font-bold text-text-primary">
+                <h3 className="font-display text-2xl font-bold text-foreground">
                   Season Progress
                 </h3>
                 <div className="space-y-4">
                   <div>
                     <div className="flex justify-between mb-3">
-                      <span className="text-xs text-text-muted font-bold uppercase tracking-wider">Level</span>
+                      <span className="text-xs text-foreground-muted font-bold uppercase tracking-wider">Level</span>
                       <span className="font-bold text-lg text-accent-lime">12 / 20</span>
                     </div>
                     <div className="w-full h-3 rounded-full bg-accent-purple/20">
                       <div className="h-full w-[60%] rounded-full bg-gradient-to-r from-accent-purple to-accent-pink" />
                     </div>
                   </div>
-                  <p className="text-xs text-text-muted text-center font-mono">
+                  <p className="text-xs text-foreground-muted text-center font-mono">
                     8 more wins to level up
                   </p>
                 </div>
               </div>
             </div>
-                  <div className="flex justify-between">
-                    <span className="text-sm text-text-muted">Wins</span>
-                    <span className="font-bold text-accent-lime">12</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-sm text-text-muted">Win Rate</span>
-                    <span className="font-bold text-accent-purple">55%</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-sm text-text-muted">Earnings</span>
-                    <span className="font-bold text-accent-pink">85.4 XLM</span>
-                  </div>
-                </div>
-                <button className="btn-premium w-full rounded-lg mt-4">
-                  View Profile
-                </button>
-              </div>
 
-              {/* Achievements */}
-              <div className="space-y-4">
-                <h3 className="font-display text-lg font-bold text-text-primary">
-                  Achievements
-                </h3>
-                <div className="space-y-2">
-                  {achievements.map((achievement, idx) => (
-                    <div key={idx} className="card-premium p-3 flex items-center gap-3">
-                      <span className="text-2xl">{achievement.icon}</span>
-                      <div>
-                        <p className="text-sm font-bold text-text-primary">{achievement.name}</p>
-                        <p className="text-xs text-text-muted">{achievement.desc}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Season Info */}
-              <div className="card-premium p-6 space-y-4">
-                <h3 className="font-display text-lg font-bold text-text-primary">
-                  Season Progress
-                </h3>
-                <div className="space-y-3">
-                  <div>
-                    <div className="flex justify-between mb-2">
-                      <span className="text-xs text-text-muted">Level</span>
-                      <span className="font-bold">12 / 20</span>
-                    </div>
-                    <div className="w-full h-2 rounded-full bg-accent-purple/20">
-                      <div className="h-full w-[60%] rounded-full bg-gradient-to-r from-accent-purple to-accent-pink" />
-                    </div>
-                  </div>
-                  <p className="text-xs text-text-muted text-center">
-                    8 more wins to level 13
-                      </p>
-                    </div>
-                    </button>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Footer CTA - LARGE AND DRAMATIC */}
       <section className="px-4 py-40 border-t border-accent-purple/30 bg-gradient-to-b from-accent-purple/8 via-accent-cyan/5 to-transparent relative overflow-hidden">
@@ -314,10 +252,10 @@ export default function LeaderboardPage() {
 
         <div className="max-w-5xl mx-auto text-center space-y-12">
           <div className="space-y-6">
-            <h2 className="font-display text-6xl sm:text-7xl lg:text-8xl font-black leading-tight text-text-primary">
+            <h2 className="font-display text-6xl sm:text-7xl lg:text-8xl font-black leading-tight text-foreground">
               Claim Your <span className="bg-gradient-to-r from-accent-purple to-accent-pink bg-clip-text text-transparent">Crown</span>
             </h2>
-            <p className="text-2xl text-text-secondary max-w-2xl mx-auto">
+            <p className="text-2xl text-foreground-secondary max-w-2xl mx-auto">
               Your journey to the top starts now. Play strategically, outwit your opponents, and earn your legendary status.
             </p>
           </div>

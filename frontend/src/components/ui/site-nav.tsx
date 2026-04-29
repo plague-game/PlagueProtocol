@@ -13,7 +13,7 @@ type SiteNavProps = {
 
 export function SiteNav({ currentPath }: SiteNavProps) {
   return (
-    <header className="sticky top-0 z-50 backdrop-blur-xl border-b border-accent-purple/30">
+    <header className="sticky top-0 z-50 backdrop-blur-xl border-b border-accent-purple/30 bg-background/80">
       <div className="mx-auto px-6 py-4 max-w-7xl">
         <div className="flex items-center justify-between gap-8">
           {/* Logo */}
@@ -22,8 +22,8 @@ export function SiteNav({ currentPath }: SiteNavProps) {
               P
             </div>
             <div className="hidden sm:block">
-              <p className="font-display text-lg font-bold text-text-primary">PlagueProtocol</p>
-              <p className="font-mono text-xs text-text-muted">Social Deduction Game</p>
+              <p className="font-display text-lg font-bold text-foreground">PlagueProtocol</p>
+              <p className="font-mono text-xs text-foreground-muted">Social Deduction Game</p>
             </div>
           </Link>
 
@@ -38,7 +38,7 @@ export function SiteNav({ currentPath }: SiteNavProps) {
                   className={`px-4 py-2 rounded-lg font-mono text-xs font-bold uppercase tracking-wide transition-all duration-300 ${
                     isActive
                       ? 'bg-accent-purple/30 text-accent-purple shadow-glow-purple border border-accent-purple/50'
-                      : 'text-text-secondary hover:text-accent-cyan hover:bg-accent-cyan/10 border border-transparent'
+                      : 'text-foreground-secondary hover:text-accent-cyan hover:bg-accent-cyan/10 border border-transparent'
                   }`}
                 >
                   {item.label}

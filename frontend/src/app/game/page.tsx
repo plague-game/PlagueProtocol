@@ -40,13 +40,13 @@ export default function GamePage() {
           <div className="flex items-center justify-between gap-8">
             <div className="space-y-3">
               <p className="text-accent-lime font-mono uppercase tracking-widest font-bold text-sm">Live Game</p>
-              <h1 className="font-display text-5xl sm:text-6xl font-bold text-text-primary">
+              <h1 className="font-display text-5xl sm:text-6xl font-bold text-foreground">
                 Genesis Lobby
               </h1>
-              <p className="text-lg text-text-muted font-mono uppercase tracking-wider">Phase 2: Vote & Discuss</p>
+              <p className="text-lg text-foreground-muted font-mono uppercase tracking-wider">Phase 2: Vote & Discuss</p>
             </div>
             <div className="card-premium px-10 py-8 text-center rounded-xl border-2 border-accent-cyan/40">
-              <p className="text-xs font-mono uppercase tracking-wider text-text-muted font-bold">Time Remaining</p>
+              <p className="text-xs font-mono uppercase tracking-wider text-foreground-muted font-bold">Time Remaining</p>
               <p className="font-display text-5xl text-accent-cyan mt-3">02:34</p>
             </div>
           </div>
@@ -91,7 +91,7 @@ export default function GamePage() {
                           <div className="w-12 h-12 rounded-full bg-gradient-to-br from-accent-purple to-accent-pink mx-auto mb-3 flex items-center justify-center text-sm font-bold shadow-lg">
                             P{player.id}
                           </div>
-                          <p className="text-xs font-bold text-text-primary truncate">
+                          <p className="text-xs font-bold text-foreground truncate">
                             {player.name}
                           </p>
                           {player.status === 'voted' && (
@@ -116,7 +116,7 @@ export default function GamePage() {
               <div className="relative group">
                 <div className="absolute -inset-0.5 bg-gradient-to-r from-accent-purple to-accent-pink rounded-2xl opacity-0 group-hover:opacity-100 transition-all blur" />
                 <div className="card-premium p-8 space-y-6 relative rounded-2xl border-2 border-accent-purple/40">
-                  <h2 className="font-display text-2xl font-bold text-text-primary">
+                  <h2 className="font-display text-2xl font-bold text-foreground">
                     Vote Now
                   </h2>
                   <div className="space-y-3">
@@ -125,8 +125,8 @@ export default function GamePage() {
                         key={player.id}
                         className="w-full p-4 rounded-xl border-2 border-accent-purple/30 bg-accent-purple/8 hover:bg-accent-purple/20 hover:border-accent-purple/60 transition-all text-left group/item"
                       >
-                        <p className="text-sm font-bold text-text-primary group-hover/item:text-accent-cyan">{player.name}</p>
-                        <p className="text-xs text-text-muted">Player {player.id}</p>
+                        <p className="text-sm font-bold text-foreground group-hover/item:text-accent-cyan">{player.name}</p>
+                        <p className="text-xs text-foreground-muted">Player {player.id}</p>
                       </button>
                     ))}
                   </div>
@@ -138,21 +138,21 @@ export default function GamePage() {
 
               {/* Chat Section */}
               <div className="card-premium p-8 space-y-6 max-h-96 flex flex-col rounded-2xl border-2 border-accent-cyan/40">
-                <h2 className="font-display text-2xl font-bold text-text-primary">
+                <h2 className="font-display text-2xl font-bold text-foreground">
                   Discussion
                 </h2>
                 <div className="flex-1 space-y-4 overflow-y-auto">
                   <div className="bg-accent-purple/15 p-4 rounded-xl border-l-4 border-accent-purple">
                     <p className="text-xs font-bold text-accent-purple mb-2 uppercase tracking-wider">Player3</p>
-                    <p className="text-sm text-text-secondary">Something seems off about Player5...</p>
+                    <p className="text-sm text-foreground-secondary">Something seems off about Player5...</p>
                   </div>
                   <div className="bg-accent-cyan/15 p-4 rounded-xl border-l-4 border-accent-cyan">
                     <p className="text-xs font-bold text-accent-cyan mb-2 uppercase tracking-wider">You</p>
-                    <p className="text-sm text-text-secondary">I agree, let's vote them out</p>
+                    <p className="text-sm text-foreground-secondary">I agree, let's vote them out</p>
                   </div>
                   <div className="bg-accent-pink/15 p-4 rounded-xl border-l-4 border-accent-pink">
                     <p className="text-xs font-bold text-accent-pink mb-2 uppercase tracking-wider">Player6</p>
-                    <p className="text-sm text-text-secondary">Wait, I think player5 is innocent!</p>
+                    <p className="text-sm text-foreground-secondary">Wait, I think player5 is innocent!</p>
                   </div>
                 </div>
                 <input
@@ -165,15 +165,15 @@ export default function GamePage() {
               {/* Stats */}
               <div className="grid grid-cols-3 gap-4">
                 <div className="card-premium p-6 text-center space-y-3 rounded-xl border-2 border-accent-cyan/40">
-                  <p className="text-xs font-mono uppercase text-text-muted font-bold">Votes Cast</p>
+                  <p className="text-xs font-mono uppercase text-foreground-muted font-bold">Votes Cast</p>
                   <p className="font-display text-3xl font-bold text-accent-cyan">6/8</p>
                 </div>
                 <div className="card-premium p-6 text-center space-y-3 rounded-xl border-2 border-accent-lime/40">
-                  <p className="text-xs font-mono uppercase text-text-muted font-bold">Your Vote</p>
+                  <p className="text-xs font-mono uppercase text-foreground-muted font-bold">Your Vote</p>
                   <p className="font-display text-2xl font-bold text-accent-lime">P5</p>
                 </div>
                 <div className="card-premium p-6 text-center space-y-3 rounded-xl border-2 border-accent-pink/40">
-                  <p className="text-xs font-mono uppercase text-text-muted font-bold">Stake</p>
+                  <p className="text-xs font-mono uppercase text-foreground-muted font-bold">Stake</p>
                   <p className="font-display text-2xl font-bold text-accent-pink">10</p>
                 </div>
               </div>

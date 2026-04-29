@@ -27,11 +27,11 @@ export default function LobbyPage() {
         <div className="max-w-6xl mx-auto text-center space-y-8">
           <div className="space-y-4">
             <p className="text-accent-lime font-mono uppercase tracking-[0.2em] font-bold text-sm">Enter The Arena</p>
-            <h1 className="font-display text-6xl sm:text-7xl lg:text-8xl font-black leading-tight text-text-primary">
+            <h1 className="font-display text-6xl sm:text-7xl lg:text-8xl font-black leading-tight text-foreground">
               Active <span className="bg-gradient-to-r from-accent-purple to-accent-cyan bg-clip-text text-transparent">Rooms</span>
             </h1>
           </div>
-          <p className="text-xl sm:text-2xl text-text-secondary max-w-2xl mx-auto leading-relaxed">
+          <p className="text-xl sm:text-2xl text-foreground-secondary max-w-2xl mx-auto leading-relaxed">
             Create a new room or join an existing game. Choose your strategy, stake your assets, and compete for real rewards.
           </p>
         </div>
@@ -47,15 +47,15 @@ export default function LobbyPage() {
                 <div className="absolute -inset-0.5 bg-gradient-to-r from-accent-purple to-accent-pink rounded-2xl opacity-0 group-hover:opacity-100 transition-all blur" />
                 <div className="card-premium p-10 space-y-8 relative rounded-2xl border-2 border-accent-purple/40">
                   <div>
-                    <h2 className="font-display text-3xl font-bold text-text-primary mb-2">
+                    <h2 className="font-display text-3xl font-bold text-foreground mb-2">
                       Start a Game
                     </h2>
-                    <p className="text-sm text-text-muted">Create a new room and invite players</p>
+                    <p className="text-sm text-foreground-muted">Create a new room and invite players</p>
                   </div>
 
                   <div className="space-y-6">
                     <div>
-                      <label className="block text-xs font-mono uppercase tracking-wider text-text-muted mb-3 font-bold">
+                      <label className="block text-xs font-mono uppercase tracking-wider text-foreground-muted mb-3 font-bold">
                         Room Name
                       </label>
                       <input
@@ -66,10 +66,10 @@ export default function LobbyPage() {
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-xs font-mono uppercase tracking-wider text-text-muted mb-3 font-bold">
-                          Players
-                        </label>
+                    <div>
+                      <label className="block text-xs font-mono uppercase tracking-wider text-foreground-muted mb-3 font-bold">
+                        Players
+                      </label>
                         <select className="input-premium w-full rounded-lg">
                           <option>6</option>
                           <option>8</option>
@@ -77,7 +77,7 @@ export default function LobbyPage() {
                         </select>
                       </div>
                       <div>
-                        <label className="block text-xs font-mono uppercase tracking-wider text-text-muted mb-3 font-bold">
+                        <label className="block text-xs font-mono uppercase tracking-wider text-foreground-muted mb-3 font-bold">
                           Stake
                         </label>
                         <select className="input-premium w-full rounded-lg">
@@ -98,14 +98,14 @@ export default function LobbyPage() {
                   </div>
 
                   <div className="pt-4 border-t border-accent-purple/20 space-y-3">
-                    <p className="text-xs text-text-muted uppercase tracking-wider font-bold">Quick Stats</p>
+                    <p className="text-xs text-foreground-muted uppercase tracking-wider font-bold">Quick Stats</p>
                     <div className="space-y-2">
                       <div className="flex justify-between text-sm">
-                        <span className="text-text-muted">Your Balance</span>
+                        <span className="text-foreground-muted">Your Balance</span>
                         <span className="font-bold text-accent-cyan">245.32 XLM</span>
                       </div>
                       <div className="flex justify-between text-sm">
-                        <span className="text-text-muted">Total Wagered</span>
+                        <span className="text-foreground-muted">Total Wagered</span>
                         <span className="font-bold text-accent-lime">1,240 XLM</span>
                       </div>
                     </div>
@@ -117,7 +117,7 @@ export default function LobbyPage() {
             {/* GAME ROOMS GRID */}
             <div className="space-y-8">
               <div className="flex items-center justify-between">
-                <h2 className="font-display text-3xl font-bold text-text-primary">
+                <h2 className="font-display text-3xl font-bold text-foreground">
                   Available Games
                 </h2>
                 <div className="flex gap-2">
@@ -144,11 +144,11 @@ export default function LobbyPage() {
                       {/* Room Header */}
                       <div className="flex items-start justify-between">
                         <div className="space-y-2 flex-1">
-                          <h3 className="font-display text-2xl font-bold text-text-primary">
+                          <h3 className="font-display text-2xl font-bold text-foreground">
                             {room.name}
                           </h3>
-                          <p className="text-sm text-text-muted flex items-center gap-2">
-                            <span className={`w-2 h-2 rounded-full ${room.status === 'online' ? 'bg-accent-lime animate-pulse' : 'bg-text-muted'}`} />
+                          <p className="text-sm text-foreground-muted flex items-center gap-2">
+                            <span className={`w-2 h-2 rounded-full ${room.status === 'online' ? 'bg-accent-lime animate-pulse' : 'bg-foreground-muted'}`} />
                             {room.status === 'online' ? 'Live Now' : 'Waiting'}
                           </p>
                         </div>
@@ -158,7 +158,7 @@ export default function LobbyPage() {
                       {/* Player Progress */}
                       <div className="space-y-3">
                         <div className="flex items-center justify-between text-sm">
-                          <span className="text-text-muted">Players</span>
+                          <span className="text-foreground-muted">Players</span>
                           <span className="font-bold text-accent-cyan">{room.players}</span>
                         </div>
                         <div className="w-full h-2 rounded-full bg-accent-purple/20">
@@ -169,11 +169,11 @@ export default function LobbyPage() {
                       {/* Stats Row */}
                       <div className="grid grid-cols-2 gap-4 pt-2">
                         <div className="bg-accent-purple/10 rounded-lg p-3 text-center">
-                          <p className="text-xs text-text-muted mb-1">Stake</p>
+                          <p className="text-xs text-foreground-muted mb-1">Stake</p>
                           <p className="font-bold text-accent-cyan">{room.stake}</p>
                         </div>
                         <div className="bg-accent-lime/10 rounded-lg p-3 text-center">
-                          <p className="text-xs text-text-muted mb-1">Prize Pool</p>
+                          <p className="text-xs text-foreground-muted mb-1">Prize Pool</p>
                           <p className="font-bold text-accent-lime">{room.prize}</p>
                         </div>
                       </div>
@@ -194,7 +194,7 @@ export default function LobbyPage() {
       {/* INFO SECTION */}
       <section className="px-4 py-24 border-t border-accent-purple/30 bg-gradient-to-b from-accent-purple/5 to-transparent">
         <div className="max-w-6xl mx-auto space-y-12">
-          <h2 className="font-display text-4xl font-bold text-center text-text-primary">
+          <h2 className="font-display text-4xl font-bold text-center text-foreground">
             How to Play
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
@@ -207,8 +207,8 @@ export default function LobbyPage() {
                 <div className="w-16 h-16 rounded-full bg-gradient-to-br from-accent-purple to-accent-pink mx-auto flex items-center justify-center">
                   <span className="font-display text-3xl font-bold text-white">{step.num}</span>
                 </div>
-                <h3 className="font-display text-xl font-bold text-text-primary">{step.title}</h3>
-                <p className="text-text-secondary text-sm">{step.desc}</p>
+                <h3 className="font-display text-xl font-bold text-foreground">{step.title}</h3>
+                <p className="text-foreground-secondary text-sm">{step.desc}</p>
               </div>
             ))}
           </div>
