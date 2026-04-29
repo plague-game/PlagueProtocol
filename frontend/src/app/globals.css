@@ -6,6 +6,22 @@
   --font-display: 'Bebas Neue', serif;
   --font-body: 'Space Grotesk', sans-serif;
   --font-mono: 'Space Mono', monospace;
+  
+  /* Dark theme color tokens */
+  --bg-primary: #0f0f0f;
+  --bg-secondary: #1a1a1a;
+  --bg-tertiary: #242424;
+  --text-primary: #ffffff;
+  --text-secondary: #b8b8b8;
+  --text-muted: #777777;
+  --accent-red: #ef4444;
+  --accent-yellow: #eab308;
+  --accent-green: #22c55e;
+  --accent-purple: #a855f7;
+  --glow-red: 0 0 20px rgba(239, 68, 68, 0.4);
+  --glow-yellow: 0 0 20px rgba(234, 179, 8, 0.3);
+  --glow-green: 0 0 20px rgba(34, 197, 94, 0.3);
+  --glow-purple: 0 0 20px rgba(168, 85, 247, 0.3);
 }
 
 @layer base {
@@ -15,85 +31,105 @@
 
   html {
     scroll-behavior: smooth;
+    background-color: var(--bg-primary);
   }
 
   body {
-    background-color: #f5f0e8;
-    color: #0a0a0a;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
     min-height: 100vh;
     background-image:
-      radial-gradient(circle at 15% 20%, rgba(230, 51, 41, 0.12) 0, rgba(230, 51, 41, 0) 40%),
-      radial-gradient(circle at 85% 10%, rgba(245, 197, 24, 0.25) 0, rgba(245, 197, 24, 0) 45%),
-      linear-gradient(180deg, #f8f3ea 0%, #f2ebdf 100%);
+      radial-gradient(circle at 10% 50%, rgba(239, 68, 68, 0.08) 0, rgba(239, 68, 68, 0) 50%),
+      radial-gradient(circle at 90% 30%, rgba(168, 85, 247, 0.06) 0, rgba(168, 85, 247, 0) 50%),
+      radial-gradient(circle at 50% 100%, rgba(34, 197, 94, 0.04) 0, rgba(34, 197, 94, 0) 60%);
   }
 
-  /* Neobrutalist scrollbar */
+  /* Dark scrollbar with glow */
   ::-webkit-scrollbar {
     width: 8px;
   }
   ::-webkit-scrollbar-track {
-    background: #f5f0e8;
-    border-left: 2px solid #0a0a0a;
+    background: var(--bg-secondary);
+    border-left: 1px solid var(--bg-tertiary);
   }
   ::-webkit-scrollbar-thumb {
-    background: #0a0a0a;
+    background: var(--accent-purple);
+    border-radius: 4px;
+    box-shadow: var(--glow-purple);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-red);
+    box-shadow: var(--glow-red);
   }
 }
 
 @layer components {
-  /* Neobrutalist button base */
+  /* Dark game button base */
   .btn-brutal {
-    @apply border-3 border-plague-black shadow-brutal font-mono font-bold uppercase tracking-wider
-           transition-all duration-100 cursor-pointer select-none;
+    @apply border-2 border-gray-600 font-mono font-bold uppercase tracking-wider
+           transition-all duration-200 cursor-pointer select-none
+           bg-var(--bg-secondary) text-var(--text-primary);
+    box-shadow: var(--glow-purple);
   }
 
   .btn-brutal:hover {
-    @apply translate-x-[2px] translate-y-[2px] shadow-none;
+    @apply border-accent-purple;
+    box-shadow: var(--glow-purple), inset 0 0 10px rgba(168, 85, 247, 0.2);
   }
 
   .btn-brutal:active {
-    @apply translate-x-[4px] translate-y-[4px] shadow-none;
+    @apply scale-95;
   }
 
-  /* Card neobrutalist */
+  /* Dark card */
   .card-brutal {
-    @apply border-3 border-plague-black shadow-brutal bg-plague-white;
+    @apply border-2 border-gray-700 bg-var(--bg-secondary) text-var(--text-primary);
+    box-shadow: var(--glow-purple);
   }
 
-  /* Input neobrutalist */
+  /* Dark input */
   .input-brutal {
-    @apply border-3 border-plague-black bg-plague-white font-mono px-4 py-2
-           focus:outline-none focus:shadow-brutal-red transition-shadow;
+    @apply border-2 border-gray-700 bg-var(--bg-tertiary) font-mono px-4 py-2
+           text-var(--text-primary) placeholder-var(--text-muted)
+           focus:outline-none transition-all;
+    box-shadow: var(--glow-red);
+  }
+
+  .input-brutal:focus {
+    @apply border-accent-red;
+    box-shadow: var(--glow-red), inset 0 0 8px rgba(239, 68, 68, 0.1);
   }
 
   /* Player token */
   .player-token {
-    @apply w-12 h-12 border-3 border-plague-black shadow-brutal flex items-center
-           justify-content-center font-display text-xl transition-all duration-300;
+    @apply w-12 h-12 border-2 border-gray-600 flex items-center justify-center
+           font-display text-xl transition-all duration-300 rounded;
   }
 
   .player-token.infected {
-    @apply bg-plague-red text-plague-white animate-pulse-red;
+    @apply bg-accent-red text-white;
+    box-shadow: var(--glow-red);
   }
 
   .player-token.clean {
-    @apply bg-plague-yellow text-plague-black;
+    @apply bg-accent-yellow text-black;
+    box-shadow: var(--glow-yellow);
   }
 
   .player-token.eliminated {
-    @apply bg-gray-300 text-gray-500 opacity-50;
+    @apply bg-gray-700 text-gray-500 opacity-50;
   }
 
   .stage-panel {
     @apply relative overflow-hidden;
     background-image:
-      linear-gradient(0deg, rgba(10, 10, 10, 0.06) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(10, 10, 10, 0.06) 1px, transparent 1px);
+      linear-gradient(0deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
     background-size: 24px 24px;
   }
 
   .ticker {
-    @apply font-mono text-xs font-bold uppercase tracking-[0.2em];
+    @apply font-mono text-xs font-bold uppercase tracking-[0.2em] text-var(--text-secondary);
     animation: ticker 12s linear infinite;
     white-space: nowrap;
   }
@@ -107,7 +143,8 @@
   }
 
   .hud-panel {
-    @apply relative overflow-hidden border-3 border-plague-black bg-plague-white shadow-brutal;
+    @apply relative overflow-hidden border-2 border-gray-700 bg-var(--bg-secondary) text-var(--text-primary);
+    box-shadow: var(--glow-purple);
   }
 
   .hud-panel::before {
@@ -115,33 +152,57 @@
     position: absolute;
     inset: 0;
     pointer-events: none;
-    background-image: linear-gradient(rgba(10, 10, 10, 0.03) 1px, transparent 1px);
+    background-image: linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px);
     background-size: 100% 6px;
-    opacity: 0.55;
+    opacity: 0.5;
   }
 
   .status-dot {
-    @apply inline-block h-3 w-3 rounded-full border-2 border-plague-black;
+    @apply inline-block h-3 w-3 rounded-full border-2;
   }
 
   .status-dot.online {
-    background: #1a7a4a;
+    @apply border-accent-green bg-accent-green;
+    box-shadow: var(--glow-green);
   }
 
   .status-dot.alert {
-    background: #e63329;
+    @apply border-accent-red bg-accent-red;
+    box-shadow: var(--glow-red);
   }
 
   .status-dot.idle {
-    background: #f5c518;
+    @apply border-accent-yellow bg-accent-yellow;
+    box-shadow: var(--glow-yellow);
   }
 
   .avatar-chip {
-    @apply flex h-14 w-14 items-center justify-center rounded-full border-3 border-plague-black bg-plague-white font-display text-2xl shadow-brutal;
+    @apply flex h-14 w-14 items-center justify-center rounded-full border-2 border-gray-600
+           bg-var(--bg-tertiary) font-display text-2xl text-var(--text-primary);
+    box-shadow: var(--glow-purple);
   }
 
   .badge-chip {
-    @apply inline-flex items-center gap-2 border-3 border-plague-black px-3 py-1 font-mono text-[10px] uppercase tracking-[0.18em] shadow-brutal;
+    @apply inline-flex items-center gap-2 border-2 border-gray-600 px-3 py-1 font-mono text-[10px]
+           uppercase tracking-[0.18em] bg-var(--bg-tertiary) text-var(--text-secondary);
+    box-shadow: var(--glow-yellow);
+  }
+
+  /* Glow utility classes */
+  .glow-red {
+    box-shadow: var(--glow-red);
+  }
+
+  .glow-yellow {
+    box-shadow: var(--glow-yellow);
+  }
+
+  .glow-green {
+    box-shadow: var(--glow-green);
+  }
+
+  .glow-purple {
+    box-shadow: var(--glow-purple);
   }
 }
 
@@ -172,5 +233,23 @@
   }
   to {
     transform: translateX(-50%);
+  }
+}
+
+@keyframes glow-pulse {
+  0%, 100% {
+    box-shadow: var(--glow-red);
+  }
+  50% {
+    box-shadow: var(--glow-red), inset 0 0 10px rgba(239, 68, 68, 0.2);
+  }
+}
+
+@keyframes glow-flicker {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
   }
 }

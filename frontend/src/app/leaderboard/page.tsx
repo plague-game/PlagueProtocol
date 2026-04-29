@@ -10,89 +10,89 @@ const topPlayers = [
 export default function LeaderboardPage() {
   return (
     <main className="min-h-screen p-4 sm:p-8">
-      <div className="mx-auto flex w-full max-w-6xl flex-col gap-6">
+      <div className="mx-auto flex w-full max-w-7xl flex-col gap-8">
         <SiteNav currentPath="/leaderboard" />
 
-        <header className="stage-panel card-brutal rise-in bg-plague-black p-5 text-plague-white sm:p-7">
-          <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
+        <header className="rise-in space-y-4">
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div>
-              <p className="inline-block border-3 border-plague-white px-3 py-1 font-mono text-xs uppercase tracking-[0.2em]">
+              <p className="inline-block border-2 border-accent-green px-4 py-2 font-mono text-xs font-bold uppercase tracking-widest text-accent-green glow-green">
                 Season Zero
               </p>
-              <h1 className="mt-3 font-display text-5xl leading-none sm:text-7xl">LEADERBOARD</h1>
+              <h1 className="mt-4 font-display text-5xl leading-tight sm:text-6xl lg:text-7xl text-text-primary">LEADERBOARD</h1>
             </div>
-            <p className="max-w-md border-3 border-plague-white bg-plague-white p-3 font-mono text-xs text-plague-black sm:text-sm">
-              Public scoreboards help reviewers see that the frontend is evolving toward a recognizable multiplayer product, not just technical scaffolding.
+            <p className="max-w-md border-2 border-gray-700 bg-bg-secondary p-4 font-mono text-sm text-text-secondary rounded-lg glow-purple">
+              Leaderboards showcase player reputation, proof expertise, and seasonal achievements across the network.
             </p>
           </div>
         </header>
 
-        <section className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-          <article className="hud-panel rise-in p-5" style={{ animationDelay: '120ms' }}>
-            <div className="flex items-center justify-between gap-4">
+        <section className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
+          <article className="hud-panel rise-in bg-bg-secondary p-6 border-accent-purple glow-purple rounded-lg" style={{ animationDelay: '130ms' }}>
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-6">
               <div>
-                <h2 className="font-display text-4xl leading-none">Top Operatives</h2>
-                <div className="mt-3 flex flex-wrap gap-2">
-                  <span className="badge-chip bg-plague-black text-plague-white">Global</span>
-                  <span className="badge-chip bg-plague-yellow text-plague-black">Season 0</span>
-                  <span className="badge-chip bg-plague-white text-plague-black">Proof Leaders</span>
+                <h2 className="font-display text-4xl leading-tight text-text-primary">Top Operatives</h2>
+                <div className="mt-4 flex flex-wrap gap-3">
+                  <span className="badge-chip border-accent-purple bg-accent-purple/10 text-accent-purple">Global</span>
+                  <span className="badge-chip border-accent-yellow bg-accent-yellow/10 text-accent-yellow">Season 0</span>
+                  <span className="badge-chip border-accent-green bg-accent-green/10 text-accent-green">Proof Leaders</span>
                 </div>
               </div>
-              <span className="border-3 border-plague-black px-2 py-1 font-mono text-xs uppercase tracking-[0.18em]">
+              <span className="border-2 border-accent-purple px-3 py-2 font-mono text-xs uppercase tracking-widest text-accent-purple rounded bg-bg-tertiary">
                 ranked by wins
               </span>
             </div>
 
-            <div className="mt-5 space-y-3">
+            <div className="space-y-4">
               {topPlayers.map((player, index) => (
-                <div key={player.name} className="grid gap-4 border-3 border-plague-black bg-plague-white p-4 sm:grid-cols-[auto_1fr_auto_auto] sm:items-center">
-                  <div className="grid h-14 w-14 place-items-center border-3 border-plague-black bg-plague-yellow font-display text-3xl shadow-brutal">
+                <div key={player.name} className="grid gap-4 border-2 border-gray-700 bg-bg-tertiary p-5 sm:grid-cols-[auto_1fr_auto_auto] sm:items-center rounded-lg hover:border-accent-purple transition-colors">
+                  <div className="grid h-16 w-16 place-items-center border-2 border-accent-yellow bg-accent-yellow/10 font-display text-3xl text-accent-yellow rounded-lg glow-yellow">
                     {index + 1}
                   </div>
                   <div>
-                    <p className="font-display text-3xl leading-none">{player.name}</p>
-                    <p className="mt-1 font-mono text-xs uppercase tracking-[0.18em] text-plague-black/65">{player.reputation}</p>
-                    <div className="mt-2 flex flex-wrap gap-2">
-                      <span className="badge-chip bg-plague-yellow text-plague-black">{player.badge}</span>
-                      <span className={`badge-chip ${player.delta.startsWith('+') ? 'bg-plague-green text-plague-white' : 'bg-plague-red text-plague-white'}`}>
+                    <p className="font-display text-3xl leading-tight text-text-primary">{player.name}</p>
+                    <p className="mt-2 font-mono text-xs uppercase tracking-widest text-text-muted">{player.reputation}</p>
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      <span className="badge-chip border-accent-yellow bg-accent-yellow/10 text-accent-yellow">{player.badge}</span>
+                      <span className={`badge-chip ${player.delta.startsWith('+') ? 'border-accent-green bg-accent-green/10 text-accent-green' : 'border-accent-red bg-accent-red/10 text-accent-red'}`}>
                         Rank {player.delta}
                       </span>
                     </div>
                   </div>
-                  <div className="border-3 border-plague-black bg-plague-black px-3 py-2 text-center text-plague-white">
-                    <p className="font-mono text-[10px] uppercase tracking-[0.16em]">Wins</p>
-                    <p className="font-display text-3xl leading-none">{player.wins}</p>
+                  <div className="border-2 border-accent-purple bg-bg-secondary px-4 py-3 text-center rounded-lg glow-purple">
+                    <p className="font-mono text-xs uppercase tracking-widest text-accent-purple">Wins</p>
+                    <p className="mt-2 font-display text-3xl leading-tight text-text-primary">{player.wins}</p>
                   </div>
-                  <div className="border-3 border-plague-black bg-plague-red px-3 py-2 text-center text-plague-white">
-                    <p className="font-mono text-[10px] uppercase tracking-[0.16em]">Proofs</p>
-                    <p className="font-display text-3xl leading-none">{player.proofs}</p>
+                  <div className="border-2 border-accent-red bg-bg-secondary px-4 py-3 text-center rounded-lg glow-red">
+                    <p className="font-mono text-xs uppercase tracking-widest text-accent-red">Proofs</p>
+                    <p className="mt-2 font-display text-3xl leading-tight text-text-primary">{player.proofs}</p>
                   </div>
                 </div>
               ))}
             </div>
           </article>
 
-          <aside className="card-brutal rise-in bg-plague-yellow p-5" style={{ animationDelay: '200ms' }}>
-            <h3 className="font-display text-4xl leading-none">Season Metrics</h3>
-            <div className="mt-5 grid gap-3">
-              <div className="border-3 border-plague-black bg-plague-white p-4">
-                <p className="font-mono text-xs uppercase tracking-[0.18em]">Recorded matches</p>
-                <p className="mt-2 font-display text-5xl leading-none">146</p>
+          <aside className="hud-panel rise-in bg-bg-secondary p-6 border-accent-yellow glow-yellow rounded-lg" style={{ animationDelay: '200ms' }}>
+            <h3 className="font-display text-4xl leading-tight text-text-primary">Season Metrics</h3>
+            <div className="mt-8 grid gap-4">
+              <div className="border-2 border-accent-yellow bg-bg-tertiary p-5 rounded-lg glow-yellow">
+                <p className="font-mono text-xs uppercase tracking-widest text-accent-yellow">Recorded Matches</p>
+                <p className="mt-3 font-display text-5xl leading-tight text-text-primary">146</p>
               </div>
-              <div className="border-3 border-plague-black bg-plague-white p-4">
-                <p className="font-mono text-xs uppercase tracking-[0.18em]">Proof submissions</p>
-                <p className="mt-2 font-display text-5xl leading-none">824</p>
+              <div className="border-2 border-accent-green bg-bg-tertiary p-5 rounded-lg glow-green">
+                <p className="font-mono text-xs uppercase tracking-widest text-accent-green">Proof Submissions</p>
+                <p className="mt-3 font-display text-5xl leading-tight text-text-primary">824</p>
               </div>
-              <div className="border-3 border-plague-black bg-plague-white p-4">
-                <p className="font-mono text-xs uppercase tracking-[0.18em]">Wallets onboarded</p>
-                <p className="mt-2 font-display text-5xl leading-none">311</p>
+              <div className="border-2 border-accent-purple bg-bg-tertiary p-5 rounded-lg glow-purple">
+                <p className="font-mono text-xs uppercase tracking-widest text-accent-purple">Wallets Onboarded</p>
+                <p className="mt-3 font-display text-5xl leading-tight text-text-primary">311</p>
               </div>
             </div>
 
-            <div className="mt-5 border-3 border-plague-black bg-plague-black p-4 text-plague-white">
-              <p className="font-mono text-xs uppercase tracking-[0.18em]">Weekly highlight</p>
-              <p className="mt-2 font-display text-4xl leading-none">NovaLatch</p>
-              <p className="mt-2 font-mono text-sm text-plague-white/85">
+            <div className="mt-6 border-2 border-accent-red bg-bg-tertiary p-5 rounded-lg glow-red">
+              <p className="font-mono text-xs uppercase tracking-widest text-accent-red">Weekly Highlight</p>
+              <p className="mt-3 font-display text-4xl leading-tight text-text-primary">NovaLatch</p>
+              <p className="mt-3 font-mono text-sm text-text-muted">
                 Best proof conversion rate this week with 14 validated innocence submissions.
               </p>
             </div>
