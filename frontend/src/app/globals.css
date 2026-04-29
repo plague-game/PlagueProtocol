@@ -21,6 +21,10 @@
     background-color: #f5f0e8;
     color: #0a0a0a;
     min-height: 100vh;
+    background-image:
+      radial-gradient(circle at 15% 20%, rgba(230, 51, 41, 0.12) 0, rgba(230, 51, 41, 0) 40%),
+      radial-gradient(circle at 85% 10%, rgba(245, 197, 24, 0.25) 0, rgba(245, 197, 24, 0) 45%),
+      linear-gradient(180deg, #f8f3ea 0%, #f2ebdf 100%);
   }
 
   /* Neobrutalist scrollbar */
@@ -78,5 +82,57 @@
 
   .player-token.eliminated {
     @apply bg-gray-300 text-gray-500 opacity-50;
+  }
+
+  .stage-panel {
+    @apply relative overflow-hidden;
+    background-image:
+      linear-gradient(0deg, rgba(10, 10, 10, 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(10, 10, 10, 0.06) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  .ticker {
+    @apply font-mono text-xs font-bold uppercase tracking-[0.2em];
+    animation: ticker 12s linear infinite;
+    white-space: nowrap;
+  }
+
+  .rise-in {
+    animation: rise-in 0.55s ease-out both;
+  }
+
+  .float-y {
+    animation: float-y 4s ease-in-out infinite;
+  }
+}
+
+@keyframes rise-in {
+  from {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes float-y {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes ticker {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
   }
 }

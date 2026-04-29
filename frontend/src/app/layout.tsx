@@ -20,11 +20,11 @@ const monoFont = Space_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'Plague — On-Chain Social Deduction',
+  title: 'PlagueProtocol — On-Chain Social Deduction',
   description:
     'A decentralised social deduction game powered by ZK proofs and Stellar/Soroban smart contracts.',
   openGraph: {
-    title: 'Plague',
+    title: 'PlagueProtocol',
     description: 'Can you find Patient Zero before the infection spreads?',
   },
 }
