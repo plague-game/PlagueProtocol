@@ -24,9 +24,9 @@ function chipClasses(tone: SceneChip['tone']) {
 
 export function HeroScene() {
   return (
-    <div className="relative overflow-hidden rounded-[28px] border-3 border-plague-black bg-[#171310] p-5 shadow-[10px_10px_0px_#e63329] sm:p-7">
-      <div className="absolute -left-10 top-10 h-28 w-28 rounded-full bg-plague-yellow/30 blur-2xl" />
-      <div className="absolute -right-8 bottom-8 h-36 w-36 rounded-full bg-plague-red/40 blur-2xl" />
+    <div className="relative overflow-hidden rounded-[28px] border-2 border-plague-black bg-[#171310] p-5 shadow-[4px_4px_0px_#e63329] sm:p-7">
+      <div className="absolute -left-10 top-10 h-14 w-14 rounded-full bg-plague-yellow/30 blur-2xl" />
+      <div className="absolute -right-8 bottom-8 h-16 w-16 rounded-full bg-plague-red/40 blur-2xl" />
 
       <div className="relative z-10 grid gap-5">
         <div className="flex items-center justify-between font-mono text-[11px] uppercase tracking-[0.18em] text-plague-white/80">
@@ -34,7 +34,7 @@ export function HeroScene() {
           <span>Live Preview</span>
         </div>
 
-        <div className="rounded-[26px] border-3 border-plague-white bg-[#211c18] p-4">
+        <div className="rounded-[26px] border-2 border-plague-white bg-[#211c18] p-4">
           <svg viewBox="0 0 640 420" className="h-auto w-full" role="img" aria-label="Stylized plague protocol game board illustration">
             <defs>
               <linearGradient id="boardGlow" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -98,9 +98,9 @@ export function HeroScene() {
 
         <div className="grid gap-3 sm:grid-cols-3">
           {sceneChips.map((chip) => (
-            <div key={chip.label} className={["rounded-[18px] border-3 border-plague-black p-3", chipClasses(chip.tone)].join(' ')}>
+            <div key={chip.label} className={["rounded-[18px] border-2 border-plague-black p-3", chipClasses(chip.tone)].join(' ')}>
               <p className="font-mono text-[10px] uppercase tracking-[0.18em]">{chip.label}</p>
-              <p className="mt-2 font-display text-4xl leading-none">{chip.value}</p>
+              <p className="mt-2 font-display text-2xl leading-none">{chip.value}</p>
             </div>
           ))}
         </div>
@@ -123,13 +123,13 @@ export function ModeCard({ title, eyebrow, tone }: ModeCardProps) {
   }[tone]
 
   return (
-    <article className={["relative overflow-hidden rounded-[26px] border-3 border-plague-black p-5 shadow-brutal", toneClass].join(' ')}>
-      <div className="absolute -right-6 -top-6 h-20 w-20 rounded-full border-3 border-current opacity-30" />
-      <div className="absolute -left-5 bottom-3 h-16 w-16 rotate-12 border-3 border-current opacity-25" />
+    <article className={["relative overflow-hidden rounded-[26px] border-2 border-plague-black p-5 shadow-brutal", toneClass].join(' ')}>
+      <div className="absolute -right-6 -top-6 h-20 w-20 rounded-full border-2 border-current opacity-30" />
+      <div className="absolute -left-5 bottom-3 h-16 w-16 rotate-12 border-2 border-current opacity-25" />
       <div className="relative z-10">
         <p className="font-mono text-[10px] uppercase tracking-[0.18em] opacity-80">{eyebrow}</p>
-        <h3 className="mt-3 font-display text-4xl leading-none">{title}</h3>
-        <div className="mt-5 h-32 rounded-[20px] border-3 border-current/90 bg-white/10 p-3">
+        <h3 className="mt-3 font-display text-2xl leading-none">{title}</h3>
+        <div className="mt-5 h-32 rounded-[20px] border-2 border-current/90 bg-white/10 p-3">
           <svg viewBox="0 0 240 120" className="h-full w-full" aria-hidden="true">
             <rect x="8" y="8" width="224" height="104" rx="18" fill="none" stroke="currentColor" strokeWidth="4" opacity="0.5" />
             <path d="M36 82 C68 24, 120 24, 152 82" fill="none" stroke="currentColor" strokeWidth="8" strokeLinecap="round" />
@@ -146,7 +146,7 @@ export function ModeCard({ title, eyebrow, tone }: ModeCardProps) {
 export function FactionBanner() {
   return (
     <div className="grid gap-4 lg:grid-cols-[1.05fr_0.95fr]">
-      <div className="rounded-[28px] border-3 border-plague-black bg-plague-black p-5 text-plague-white shadow-brutal">
+      <div className="rounded-[28px] border-2 border-plague-black bg-plague-black p-5 text-plague-white shadow-brutal">
         <div className="flex items-center justify-between gap-3">
           <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-plague-white/70">Faction graphics</p>
           <span className="badge-chip border-plague-white bg-plague-yellow text-plague-black shadow-none">Role Deck</span>
@@ -157,7 +157,7 @@ export function FactionBanner() {
             ['Patient Zero', '#e63329', '#f5f0e8'],
             ['Verifier', '#f5f0e8', '#0a0a0a'],
           ].map(([label, fill, text]) => (
-            <div key={label} className="rounded-[22px] border-3 border-plague-white bg-[#201b17] p-4">
+            <div key={label} className="rounded-[22px] border-2 border-plague-white bg-[#201b17] p-4">
               <svg viewBox="0 0 160 180" className="h-auto w-full" aria-hidden="true">
                 <rect x="12" y="12" width="136" height="156" rx="18" fill={fill} stroke="#0a0a0a" strokeWidth="6" />
                 <circle cx="80" cy="66" r="28" fill="#0a0a0a" opacity="0.15" />
@@ -172,9 +172,9 @@ export function FactionBanner() {
         </div>
       </div>
 
-      <div className="rounded-[28px] border-3 border-plague-black bg-plague-yellow p-5 shadow-brutal">
+      <div className="rounded-[28px] border-2 border-plague-black bg-plague-yellow p-5 shadow-brutal">
         <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-plague-black/70">Animated arena feel</p>
-        <div className="mt-5 rounded-[24px] border-3 border-plague-black bg-plague-white p-4">
+        <div className="mt-5 rounded-[24px] border-2 border-plague-black bg-plague-white p-4">
           <svg viewBox="0 0 320 220" className="h-auto w-full" role="img" aria-label="Stylized arena poster for plague protocol">
             <rect x="12" y="12" width="296" height="196" rx="24" fill="#f5f0e8" stroke="#0a0a0a" strokeWidth="6" />
             <circle cx="160" cy="110" r="56" fill="#f5c518" stroke="#0a0a0a" strokeWidth="8" />
@@ -218,13 +218,13 @@ export function LobbyPosters() {
   return (
     <div className="grid gap-4 md:grid-cols-3">
       {roomPosters.map((room) => (
-        <article key={room.name} className={["rounded-[24px] border-3 border-plague-black p-4 shadow-brutal", posterClass(room.accent)].join(' ')}>
+        <article key={room.name} className={["rounded-[24px] border-2 border-plague-black p-4 shadow-brutal", posterClass(room.accent)].join(' ')}>
           <div className="flex items-center justify-between gap-2">
             <p className="font-mono text-[10px] uppercase tracking-[0.18em]">{room.status}</p>
             <span className="status-dot online" />
           </div>
           <h3 className="mt-3 font-display text-3xl leading-none">{room.name}</h3>
-          <div className="mt-4 rounded-[18px] border-3 border-current/90 bg-white/10 p-2">
+          <div className="mt-4 rounded-[18px] border-2 border-current/90 bg-white/10 p-2">
             <svg viewBox="0 0 260 160" className="h-auto w-full" aria-hidden="true">
               <rect x="10" y="10" width="240" height="140" rx="18" fill="none" stroke="currentColor" strokeWidth="4" opacity="0.7" />
               <path d="M28 128 L76 68 L124 128" fill="none" stroke="currentColor" strokeWidth="7" strokeLinecap="round" />
@@ -242,7 +242,7 @@ export function LobbyPosters() {
 
 export function MatchArenaGraphic() {
   return (
-    <div className="rounded-[28px] border-3 border-plague-white bg-[#1c1714] p-4 sm:p-6">
+    <div className="rounded-[28px] border-2 border-plague-white bg-[#1c1714] p-4 sm:p-6">
       <svg viewBox="0 0 700 420" className="h-auto w-full" role="img" aria-label="Stylized tactical arena for plague match">
         <rect x="22" y="24" width="656" height="372" rx="34" fill="#171310" stroke="#f5f0e8" strokeWidth="8" />
         <circle cx="350" cy="210" r="78" fill="#f5c518" stroke="#f5f0e8" strokeWidth="8" />

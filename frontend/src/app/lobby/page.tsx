@@ -1,135 +1,263 @@
-import { LobbyPosters } from '@/components/game/illustrations'
 import { SiteNav } from '@/components/ui/site-nav'
-import { WalletPanel } from '@/components/wallet/wallet-panel'
+
+const rooms = [
+  {
+    name: 'Genesis Lobby',
+    desc: 'Fast room for onboarding testers',
+    players: 4,
+    max: 8,
+    prize: '80 XLM',
+    status: 'online',
+  },
+  {
+    name: 'Infection Testnet',
+    desc: 'Contract event replay room',
+    players: 2,
+    max: 6,
+    prize: '60 XLM',
+    status: 'idle',
+  },
+  {
+    name: 'Zero Proof Squad',
+    desc: 'Noir proof pipeline dry run',
+    players: 5,
+    max: 10,
+    prize: '100 XLM',
+    status: 'alert',
+  },
+]
+
+const statusColor: Record<string, string> = {
+  online: '#1a7a4a',
+  idle: '#f5c518',
+  alert: '#e63329',
+}
+
+const statusLabel: Record<string, string> = {
+  online: 'Join',
+  idle: 'Spectate',
+  alert: 'Queue',
+}
 
 export default function LobbyPage() {
   return (
-    <main className="min-h-screen p-4 sm:p-8">
-      <div className="mx-auto flex w-full max-w-6xl flex-col gap-6">
-        <SiteNav currentPath="/lobby" />
+    <main className="min-h-screen" style={{ backgroundColor: '#0a0e27', color: '#f0f4f8' }}>
+      {/* Nav */}
+      <div className="px-4 pt-4 sm:px-8 sm:pt-6">
+        <div className="mx-auto w-full max-w-6xl">
+          <SiteNav currentPath="/lobby" />
+        </div>
+      </div>
 
-        <header className="stage-panel card-brutal rise-in bg-plague-yellow p-5 sm:p-7">
-          <p className="inline-block border-3 border-plague-black bg-plague-white px-3 py-1 font-mono text-xs font-bold uppercase tracking-[0.2em]">
-            Lobby Control Panel
+      {/* Header */}
+      <header className="px-6 py-16">
+        <div className="mx-auto flex w-full max-w-6xl flex-col items-center gap-6 text-center">
+          <span className="font-mono text-xs uppercase tracking-[0.3em]" style={{ color: '#a855f7' }}>
+            Game Lobby
+          </span>
+          <h1
+            className="font-display text-6xl font-bold leading-none sm:text-7xl lg:text-8xl"
+            style={{
+              background: 'linear-gradient(135deg, #f0f4f8, #a855f7)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+            }}
+          >
+            ACTIVE ROOMS
+          </h1>
+          <p className="max-w-xl font-body text-lg" style={{ color: '#b4c1d1' }}>
+            Join an existing room, create your own, and stake XLM before the infection spreads.
           </p>
-          <div className="mt-3 flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
-            <h1 className="font-display text-5xl leading-none sm:text-7xl">ACTIVE ROOMS</h1>
-            <p className="max-w-md border-3 border-plague-black bg-plague-white p-3 font-mono text-xs sm:text-sm">
-              UI is wired as a demo shell while wallet auth and room actions are integrated with backend and contracts.
-            </p>
-          </div>
-        </header>
+        </div>
+      </header>
 
-        <section className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
-          <div className="flex flex-col gap-6">
-            <article className="card-brutal rise-in bg-plague-black p-5 text-plague-white" style={{ animationDelay: '100ms' }}>
-            <h2 className="font-display text-3xl leading-none">Create Room</h2>
-            <div className="mt-4 space-y-3">
-              <input
-                className="input-brutal w-full border-plague-white bg-plague-white text-plague-black"
-                value="Night Shift"
-                readOnly
-                aria-label="Room name"
-              />
-              <div className="grid grid-cols-2 gap-3">
-                <input
-                  className="input-brutal w-full border-plague-white bg-plague-white text-plague-black"
-                  value="6 players"
-                  readOnly
-                  aria-label="Max players"
-                />
-                <input
-                  className="input-brutal w-full border-plague-white bg-plague-white text-plague-black"
-                  value="10 XLM"
-                  readOnly
-                  aria-label="Stake"
-                />
-              </div>
-              <button className="btn-brutal w-full bg-plague-red px-4 py-3 font-mono text-plague-white">
-                Create Room (Demo)
-              </button>
-              <button className="btn-brutal w-full bg-plague-yellow px-4 py-3 font-mono text-plague-black">
-                Connect Freighter (Next)
-              </button>
+      <div className="px-6 pb-20">
+        <div className="mx-auto w-full max-w-6xl">
+          <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
+
+            {/* Left column: Create Room + Party Queue */}
+            <div className="flex flex-col gap-6">
+              <article
+                className="rise-in rounded-lg border p-8"
+                style={{ backgroundColor: '#161b35', borderColor: 'rgba(168,85,247,0.3)' }}
+              >
+                <h2 className="font-display text-2xl leading-none" style={{ color: '#f0f4f8' }}>
+                  Create Room
+                </h2>
+                <div className="mt-6 space-y-4">
+                  <input
+                    className="w-full rounded-lg border bg-transparent px-4 py-3 font-mono text-sm focus:outline-none"
+                    style={{ borderColor: 'rgba(168,85,247,0.4)', color: '#f0f4f8' }}
+                    defaultValue="Night Shift"
+                    aria-label="Room name"
+                    readOnly
+                  />
+                  <div className="grid grid-cols-2 gap-4">
+                    <input
+                      className="w-full rounded-lg border bg-transparent px-4 py-3 font-mono text-sm focus:outline-none"
+                      style={{ borderColor: 'rgba(168,85,247,0.4)', color: '#f0f4f8' }}
+                      defaultValue="6 players"
+                      aria-label="Max players"
+                      readOnly
+                    />
+                    <input
+                      className="w-full rounded-lg border bg-transparent px-4 py-3 font-mono text-sm focus:outline-none"
+                      style={{ borderColor: 'rgba(168,85,247,0.4)', color: '#f0f4f8' }}
+                      defaultValue="10 XLM"
+                      aria-label="Stake"
+                      readOnly
+                    />
+                  </div>
+                  <button
+                    className="w-full rounded-lg border py-3 font-mono text-sm font-bold uppercase tracking-wider transition-all hover:opacity-90"
+                    style={{ backgroundColor: '#e63329', borderColor: '#e63329', color: '#f0f4f8', boxShadow: '4px 4px 0px #a855f7' }}
+                  >
+                    Create Room (Demo)
+                  </button>
+                  <button
+                    className="w-full rounded-lg border py-3 font-mono text-sm font-bold uppercase tracking-wider transition-all hover:opacity-90"
+                    style={{ backgroundColor: 'transparent', borderColor: 'rgba(168,85,247,0.5)', color: '#a855f7' }}
+                  >
+                    Connect Freighter (Next)
+                  </button>
+                </div>
+
+                <div className="mt-6 grid grid-cols-3 gap-3">
+                  {[
+                    { label: 'Stake', value: '10' },
+                    { label: 'Rounds', value: '7' },
+                    { label: 'Mode', value: 'ZK' },
+                  ].map((s) => (
+                    <div
+                      key={s.label}
+                      className="rounded-lg border p-3 text-center"
+                      style={{ borderColor: 'rgba(168,85,247,0.2)', backgroundColor: '#1a1f3a' }}
+                    >
+                      <p className="font-mono text-[10px] uppercase tracking-[0.18em]" style={{ color: '#7a8592' }}>
+                        {s.label}
+                      </p>
+                      <p className="mt-2 font-display text-2xl leading-none" style={{ color: '#f0f4f8' }}>
+                        {s.value}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </article>
+
+              {/* Party Queue */}
+              <article
+                className="rise-in rounded-lg border p-6"
+                style={{ backgroundColor: '#161b35', borderColor: 'rgba(6,182,212,0.2)', animationDelay: '100ms' }}
+              >
+                <p className="font-mono text-xs uppercase tracking-[0.2em]" style={{ color: '#06b6d4' }}>
+                  Party Queue
+                </p>
+                <div className="mt-4 flex flex-wrap gap-3">
+                  {['AM', 'ZR', 'NX', 'KQ', 'VT'].map((player) => (
+                    <div
+                      key={player}
+                      className="flex h-10 w-10 items-center justify-center rounded-full border-2 font-display text-base"
+                      style={{ borderColor: '#a855f7', backgroundColor: '#1a1f3a', color: '#a855f7' }}
+                    >
+                      {player}
+                    </div>
+                  ))}
+                </div>
+                <p className="mt-4 font-mono text-xs leading-relaxed" style={{ color: '#7a8592' }}>
+                  Players appear here once wallet auth and room subscriptions are wired up.
+                </p>
+              </article>
             </div>
 
-            <div className="mt-5 grid grid-cols-3 gap-3">
-              <div className="border-3 border-plague-white p-3">
-                <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-plague-white/80">Stake</p>
-                <p className="mt-2 font-display text-3xl leading-none">10</p>
+            {/* Right column: Room List */}
+            <article
+              className="rise-in rounded-lg border p-6"
+              style={{ backgroundColor: '#161b35', borderColor: 'rgba(168,85,247,0.2)', animationDelay: '80ms' }}
+            >
+              <div className="flex items-end justify-between gap-4">
+                <h2 className="font-display text-2xl leading-none" style={{ color: '#f0f4f8' }}>
+                  Join Existing
+                </h2>
+                <span
+                  className="rounded-full border px-3 py-1 font-mono text-xs"
+                  style={{ borderColor: 'rgba(168,85,247,0.3)', color: '#a855f7' }}
+                >
+                  3 rooms online
+                </span>
               </div>
-              <div className="border-3 border-plague-white p-3">
-                <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-plague-white/80">Rounds</p>
-                <p className="mt-2 font-display text-3xl leading-none">7</p>
+
+              <ul className="mt-6 space-y-4">
+                {rooms.map((room, i) => (
+                  <li
+                    key={room.name}
+                    className="rise-in rounded-lg border p-5 transition-all duration-200 hover:scale-[1.01]"
+                    style={{
+                      backgroundColor: '#1a1f3a',
+                      borderColor: 'rgba(168,85,247,0.2)',
+                      animationDelay: `${160 + i * 80}ms`,
+                    }}
+                  >
+                    <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2">
+                          <span
+                            className="h-2 w-2 rounded-full"
+                            style={{ backgroundColor: statusColor[room.status], boxShadow: `0 0 6px ${statusColor[room.status]}` }}
+                          />
+                          <span className="font-display text-lg leading-none" style={{ color: '#f0f4f8' }}>
+                            {room.name}
+                          </span>
+                        </div>
+                        <p className="mt-1 font-mono text-xs" style={{ color: '#7a8592' }}>
+                          {room.desc}
+                        </p>
+                      </div>
+                      <div className="flex items-center gap-4">
+                        <div className="text-center">
+                          <p className="font-mono text-[10px] uppercase" style={{ color: '#7a8592' }}>Players</p>
+                          <p className="font-display text-lg leading-none" style={{ color: '#f0f4f8' }}>
+                            {room.players}/{room.max}
+                          </p>
+                        </div>
+                        <div className="text-center">
+                          <p className="font-mono text-[10px] uppercase" style={{ color: '#7a8592' }}>Prize</p>
+                          <p className="font-display text-lg leading-none" style={{ color: '#84cc16' }}>
+                            {room.prize}
+                          </p>
+                        </div>
+                        <button
+                          className="rounded border px-4 py-2 font-mono text-xs font-bold uppercase tracking-wider transition-all hover:opacity-90"
+                          style={{
+                            backgroundColor: room.status === 'online' ? '#e63329' : 'transparent',
+                            borderColor: room.status === 'online' ? '#e63329' : 'rgba(168,85,247,0.5)',
+                            color: room.status === 'online' ? '#f0f4f8' : '#a855f7',
+                          }}
+                        >
+                          {statusLabel[room.status]}
+                        </button>
+                      </div>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+
+              {/* Integration Roadmap */}
+              <div
+                className="mt-6 rounded-lg border p-5"
+                style={{ borderColor: 'rgba(132,204,22,0.25)', backgroundColor: 'rgba(132,204,22,0.05)' }}
+              >
+                <h3 className="font-display text-lg leading-none" style={{ color: '#84cc16' }}>
+                  Integration Roadmap
+                </h3>
+                <p className="mt-2 font-mono text-xs leading-relaxed" style={{ color: '#b4c1d1' }}>
+                  Next milestone: wallet auth, room creation, and stake escrow wired to Soroban contracts
+                  and backend APIs.
+                </p>
               </div>
-              <div className="border-3 border-plague-white p-3">
-                <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-plague-white/80">Mode</p>
-                <p className="mt-2 font-display text-3xl leading-none">ZK</p>
-              </div>
-            </div>
             </article>
-
-            <WalletPanel variant="dark" />
           </div>
-
-          <article className="hud-panel rise-in p-5" style={{ animationDelay: '180ms' }}>
-            <div className="flex items-end justify-between gap-4">
-              <h2 className="font-display text-3xl leading-none">Join Existing</h2>
-              <span className="border-3 border-plague-black px-2 py-1 font-mono text-xs">3 rooms online</span>
-            </div>
-            <ul className="mt-4 space-y-3 font-mono text-sm">
-              <li className="grid gap-3 border-3 border-plague-black bg-plague-white p-4 sm:grid-cols-[1fr_auto_auto] sm:items-center">
-                <div>
-                  <span className="font-bold">Genesis Lobby</span>
-                  <p className="mt-1 text-xs opacity-70">Fast room for onboarding testers</p>
-                </div>
-                <span className="flex items-center gap-2"><span className="status-dot online" />4 / 8</span>
-                <button className="btn-brutal bg-plague-red px-3 py-2 text-xs text-plague-white">Join</button>
-              </li>
-              <li className="grid gap-3 border-3 border-plague-black bg-plague-white p-4 sm:grid-cols-[1fr_auto_auto] sm:items-center">
-                <div>
-                  <span className="font-bold">Infection Testnet</span>
-                  <p className="mt-1 text-xs opacity-70">Contract event replay room</p>
-                </div>
-                <span className="flex items-center gap-2"><span className="status-dot idle" />2 / 6</span>
-                <button className="btn-brutal bg-plague-black px-3 py-2 text-xs text-plague-white">Spectate</button>
-              </li>
-              <li className="grid gap-3 border-3 border-plague-black bg-plague-white p-4 sm:grid-cols-[1fr_auto_auto] sm:items-center">
-                <div>
-                  <span className="font-bold">Zero Proof Squad</span>
-                  <p className="mt-1 text-xs opacity-70">Noir proof pipeline dry run</p>
-                </div>
-                <span className="flex items-center gap-2"><span className="status-dot alert" />5 / 10</span>
-                <button className="btn-brutal bg-plague-yellow px-3 py-2 text-xs text-plague-black">Queue</button>
-              </li>
-            </ul>
-          </article>
-        </section>
-
-        <section className="rise-in" style={{ animationDelay: '230ms' }}>
-          <LobbyPosters />
-        </section>
-
-        <section className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
-          <article className="card-brutal rise-in bg-plague-green p-5 text-plague-white sm:p-6" style={{ animationDelay: '260ms' }}>
-            <h3 className="font-display text-3xl leading-none">Integration Roadmap</h3>
-            <p className="mt-3 font-mono text-sm">
-              Next milestone connects wallet state, room creation, and participation flows to backend APIs, then moves stake escrow and room state transitions into Soroban contracts.
-            </p>
-          </article>
-
-          <article className="hud-panel rise-in p-5" style={{ animationDelay: '340ms' }}>
-            <p className="font-mono text-xs uppercase tracking-[0.2em] text-plague-black/70">Party queue</p>
-            <div className="mt-4 flex flex-wrap gap-3">
-              {['AM', 'ZR', 'NX', 'KQ', 'VT'].map((player) => (
-                <div key={player} className="avatar-chip">
-                  {player}
-                </div>
-              ))}
-            </div>
-            <p className="mt-4 font-mono text-sm opacity-75">Players appear here once wallet auth and room subscriptions are wired up.</p>
-          </article>
-        </section>
+        </div>
       </div>
     </main>
   )
