@@ -105,6 +105,40 @@
   .float-y {
     animation: float-y 4s ease-in-out infinite;
   }
+
+  .hud-panel {
+    @apply relative overflow-hidden border-3 border-plague-black bg-plague-white shadow-brutal;
+  }
+
+  .hud-panel::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: linear-gradient(rgba(10, 10, 10, 0.03) 1px, transparent 1px);
+    background-size: 100% 6px;
+    opacity: 0.55;
+  }
+
+  .status-dot {
+    @apply inline-block h-3 w-3 rounded-full border-2 border-plague-black;
+  }
+
+  .status-dot.online {
+    background: #1a7a4a;
+  }
+
+  .status-dot.alert {
+    background: #e63329;
+  }
+
+  .status-dot.idle {
+    background: #f5c518;
+  }
+
+  .avatar-chip {
+    @apply flex h-14 w-14 items-center justify-center rounded-full border-3 border-plague-black bg-plague-white font-display text-2xl shadow-brutal;
+  }
 }
 
 @keyframes rise-in {
