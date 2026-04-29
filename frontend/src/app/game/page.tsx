@@ -54,8 +54,8 @@ export default function GamePage() {
       </section>
 
       {/* Main Game Area */}
-      <section className="px-4 py-24">
-        <div className="max-w-7xl mx-auto">
+      <section className="px-4 py-24 w-full flex justify-center">
+        <div className="max-w-7xl w-full">
           {/* Circular Player Grid */}
           <div className="flex flex-col lg:flex-row gap-20 items-start">
             {/* Center Board - LARGE AND PROMINENT */}

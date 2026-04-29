@@ -38,8 +38,8 @@ export default function LobbyPage() {
       </section>
 
       {/* MAIN CONTENT */}
-      <section className="px-4 py-24">
-        <div className="max-w-7xl mx-auto">
+      <section className="px-4 py-24 w-full flex justify-center">
+        <div className="max-w-7xl w-full">
           <div className="grid lg:grid-cols-[380px_1fr] gap-12">
             {/* CREATE ROOM PANEL - PROMINENT AND INVITING */}
             <div className="space-y-8">
