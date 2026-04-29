@@ -196,46 +196,165 @@ impl PlagueGame {
         voter.require_auth();
         // TODO: Issue #44
         // 1. Verify phase is Voting
-        // 2. Verify voter is not eliminated
-        // 3. Verify target is not eliminated
+        // 2. Verify voter is alive (not eliminated)
+        // 3. Verify target is alive
+        // 4. Record vote (one vote per voter; overwrites if called again)
+        // 5. Emit vote_cast event
+    }
+
+    /// Submit an innocence proof during a voting tie.
+    ///
+    /// Eligibility:
+    ///   - Player must be alive and a tied top-vote candidate this round.
+    ///   - Max 1 submission per player per round (nullifier enforced).
+    ///   - First submission per game is free; subsequent require proof_fee payment.
+    ///   - Only CLEAN players can produce a valid proof (circuit rejects infected).
+    ///
+    /// TODO: Issue #45
+    pub fn submit_innocence_proof(
+        env: Env,
+        player: Address,
+        room_id: u64,
+        commitment: String,
+        nullifier: String,  // H(secret, roomId, round) — unique per player/round
+        zk_proof: String,
+    ) {
+        player.require_auth();
+        // TODO: Issue #45
+        // 1. Verify phase is Voting AND a tie has been detected this round
+        // 2. Verify player is one of the tied top-vote candidates
+        // 3. Verify nullifier has not been used in this room before
+        // 4. Call ZKVerifier to verify zk_proof against commitment + nullifier
+        // 5. If player.free_proof_used == false:
+        //      mark free_proof_used = true (no charge)
+        //    else:
+        //      charge proof_fee from player, add to pot
+        // 6. Mark proof as accepted for this round (used in resolve_round)
+        // 7. Add nullifier to UsedNullifiers(room_id) set
+        // 8. Increment player.proofs_submitted_total
+    }
+
+    /// Resolve round after voting phase ends.
+    ///
+    /// Tie resolution algorithm:
+    ///   1. Tally votes; find top vote count.
+    ///   2. Collect tied candidates.
+    ///   3. Separate into protected (valid proof this round) and unprotected.
+    ///   4a. If unprotected exist → eliminate unprotected candidate
+    ///       (deterministic if multiple: lowest hash(address)).
+    ///   4b. If ALL tied are protected:
+    ///       - No elimination this round.
+    ///       - Select one deterministically: hash(roomId, round, prevTxHash) % len
+    ///       - Set selected player.pending_infection_next_round = true
+    ///       - Emit generic "tie_resolved" event (no role hints in payload)
+    ///
+    /// Endgame check (after elimination / tie resolution):
+    ///   infected_alive == 0        → CleanWin     → payout clean survivors
+    ///   infected_alive >= clean_alive → InfectedWin → payout infected survivors
+    ///   current_round == max_rounds  → MaxRoundsDraw → survivors split pot
+    ///
+    /// TODO: Issue #46
+    pub fn resolve_round(env: Env, room_id: u64) {
+        // TODO: Issue #46
+        // 1. Tally votes
+        // 2. Tie resolution (see above)
+        // 3. Apply pending_infection from previous round
+        // 4. Run endgame check
+        // 5. If game over → distribute pot to winners, set room.status = Ended
+        // 6. Else → start next round (infection phase, assign new infection target)
+    }
+
+    /// Payout winners after game ends.
+    /// pot_per_winner = total_pot / winners.len()
+    /// Eliminated and losing-faction players receive 0.
+    ///
+    /// TODO: Issue #41
+    pub fn distribute_pot(env: Env, room_id: u64) {
+        // TODO: Issue #41
+        // 1. Load room, verify status is Ended
+        // 2. Identify winning faction alive players
+        // 3. Transfer pot / winners.len() to each winner via token contract
+        // 4. Emit pot_drained event per winner
+    }
+}
         // 4. Store vote (one vote per player per round)
         // 5. If all non-eliminated players voted, trigger vote resolution
     }
 
-    /// Resolve votes at end of voting phase — eliminate majority target
+    /// Submit an innocence proof during a voting tie.
     ///
-    /// TODO: Issue #44
-    pub fn resolve_votes(env: Env, room_id: u64) {
-        // TODO: Issue #44
-        // 1. Tally votes
-        // 2. Eliminate player with most votes (tie = no elimination)
-        // 3. Check win conditions
-        // 4. Emit player_eliminated event
-        // 5. Advance to next round or end game
-    }
-
-    /// Drain infected players' stakes each round
+    /// Eligibility:
+    ///   - Player must be alive and a tied top-vote candidate this round.
+    ///   - Max 1 submission per player per round (nullifier enforced by UsedNullifiers set).
+    ///   - First submission per game is free; subsequent require proof_fee payment.
+    ///   - Only CLEAN players can produce a valid proof (ZK circuit rejects infected).
     ///
     /// TODO: Issue #45
-    pub fn trigger_drain(env: Env, room_id: u64, round: u32) {
+    pub fn submit_innocence_proof(
+        env: Env,
+        player: Address,
+        room_id: u64,
+        commitment: String,
+        nullifier: String,   // H(secret, roomId, round) — unique per player/round
+        zk_proof: String,
+    ) {
+        player.require_auth();
         // TODO: Issue #45
-        // 1. Only callable by contract itself or admin (keeper pattern)
-        // 2. For each infected player, subtract drain_amount from their stake
-        // 3. Add drained amount to clean players' claimable balance
-        // 4. Emit pot_drained event
+        // 1. Verify phase is Voting AND a tie has been detected this round
+        // 2. Verify player is a tied top-vote candidate
+        // 3. Verify nullifier not in UsedNullifiers(room_id)
+        // 4. Call ZKVerifier to verify zk_proof against commitment + nullifier
+        // 5. If player.free_proof_used == false:
+        //      mark free_proof_used = true (no charge)
+        //    else:
+        //      charge proof_fee from player, add to pot
+        // 6. Store proof acceptance for this round
+        // 7. Add nullifier to UsedNullifiers(room_id) set
+        // 8. Increment player.proofs_submitted_total
     }
 
-    /// Claim winnings after game ends
+    /// Resolve round after voting phase ends.
+    ///
+    /// Tie resolution algorithm:
+    ///   1. Tally votes; find top vote count.
+    ///   2. Collect tied candidates.
+    ///   3. Separate into protected (valid proof this round) and unprotected.
+    ///   4a. If unprotected exist → eliminate the unprotected candidate
+    ///       (deterministic if multiple: lowest hash(address)).
+    ///   4b. If ALL tied are protected:
+    ///       - No elimination this round.
+    ///       - Select one: hash(roomId, round, prevTxHash) % len
+    ///       - Set selected player.pending_infection_next_round = true
+    ///       - Emit generic "tie_resolved" event (no role hints in payload).
+    ///
+    /// Endgame check (after elimination / tie resolution, alive counts only):
+    ///   infected_alive == 0           → CleanWin      → payout clean survivors
+    ///   infected_alive >= clean_alive → InfectedWin   → payout infected survivors
+    ///   current_round == max_rounds   → MaxRoundsDraw → survivors split pot equally
     ///
     /// TODO: Issue #46
-    pub fn claim_winnings(env: Env, player: Address, room_id: u64) -> i128 {
-        player.require_auth();
+    pub fn resolve_round(env: Env, room_id: u64) {
         // TODO: Issue #46
-        // 1. Verify game is ended
-        // 2. Calculate player's share based on win condition
-        // 3. Transfer XLM from contract to player
-        // 4. Mark player as claimed
-        0
+        // 1. Tally votes
+        // 2. Tie resolution (see above)
+        // 3. Apply pending_infection from previous round if set
+        // 4. Endgame check
+        // 5. If game over → distribute pot to winners, set room.status = Ended
+        // 6. Else → start next round (infection phase, assign new infection target)
+    }
+
+    /// Distribute pot to winning faction survivors after game ends.
+    /// pot_per_winner = total_pot / winners.len()
+    /// Eliminated and losing-faction players receive 0.
+    /// Auto-called by resolve_round; no manual claim required.
+    ///
+    /// TODO: Issue #41
+    pub fn distribute_pot(env: Env, room_id: u64) {
+        // TODO: Issue #41
+        // 1. Load room, verify status is Ended
+        // 2. Identify winning faction alive players
+        // 3. Transfer pot / winners.len() to each winner via token contract
+        // 4. Emit pot_drained event per winner
     }
 
     /// Read-only: Get room state
