@@ -1,104 +1,181 @@
 import Link from 'next/link'
-import { HeroScene } from '@/components/game/illustrations'
 import { SiteNav } from '@/components/ui/site-nav'
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen px-4 py-8 sm:px-8 sm:py-12">
-      <div className="mx-auto flex w-full max-w-6xl flex-col gap-20">
-        <SiteNav currentPath="/" />
+    <main className="min-h-screen">
+      <SiteNav currentPath="/" />
 
-        {/* Hero Section */}
-        <section className="grid gap-12 lg:grid-cols-[1fr_0.6fr]">
-          <div className="space-y-8">
-            <div className="space-y-4">
-              <p className="text-sm font-mono uppercase tracking-wider text-accent-purple">
-                Social deduction on Stellar
+      {/* Hero Section with Gradient Background */}
+      <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden px-4 py-20">
+        {/* Animated background gradient */}
+        <div className="absolute inset-0 -z-10">
+          <div className="absolute top-0 left-1/4 w-96 h-96 bg-accent-purple/20 rounded-full blur-3xl animate-float-up" style={{ animationDelay: '0s' }} />
+          <div className="absolute bottom-20 right-1/4 w-96 h-96 bg-accent-cyan/15 rounded-full blur-3xl animate-float-up" style={{ animationDelay: '1s' }} />
+          <div className="absolute top-1/2 right-0 w-96 h-96 bg-accent-pink/10 rounded-full blur-3xl" />
+        </div>
+
+        <div className="relative z-10 max-w-5xl mx-auto text-center space-y-8 animate-scale-in">
+          {/* Badge */}
+          <div className="inline-block">
+            <div className="card-premium px-6 py-3">
+              <p className="font-mono text-xs uppercase tracking-widest text-accent-cyan">
+                Decentralized Social Deduction Game
               </p>
-              <h1 className="max-w-2xl font-display text-5xl leading-tight sm:text-6xl text-text-primary">
-                Infect The Room
-              </h1>
-              <p className="max-w-lg text-base text-text-secondary">
-                A decentralized game where you hunt for Patient Zero or spread the plague before the truth is revealed.
-              </p>
-            </div>
-
-            <div className="flex flex-wrap gap-3">
-              <Link
-                href="/lobby"
-                className="px-6 py-2 text-sm font-bold uppercase border-2 border-accent-red text-accent-red hover:bg-accent-red hover:text-white transition-colors"
-              >
-                Play Now
-              </Link>
-              <Link
-                href="/leaderboard"
-                className="px-6 py-2 text-sm font-bold uppercase border-2 border-accent-purple text-accent-purple hover:bg-accent-purple hover:text-white transition-colors"
-              >
-                Leaderboard
-              </Link>
             </div>
           </div>
 
-          <div className="hidden lg:block">
-            <div className="scale-75 origin-top-right">
-              <HeroScene />
-            </div>
-          </div>
-        </section>
+          {/* Main Heading */}
+          <h1 className="font-display text-6xl sm:text-7xl lg:text-8xl font-bold leading-tight max-w-4xl mx-auto">
+            <span className="bg-gradient-to-r from-accent-purple via-accent-pink to-accent-cyan bg-clip-text text-transparent">
+              Infect The Room
+            </span>
+          </h1>
 
-        {/* Features Grid */}
-        <section className="space-y-6">
-          <h2 className="font-display text-2xl text-text-primary">How It Works</h2>
-          <div className="grid gap-4 sm:grid-cols-3">
-            <div className="border border-gray-700 bg-bg-secondary p-6 rounded-lg">
-              <h3 className="font-mono text-xs uppercase tracking-wider text-accent-red mb-2">Phase 1</h3>
-              <p className="text-sm text-text-secondary">Create or join a game room. Stake your assets and prepare for deduction.</p>
-            </div>
-            <div className="border border-gray-700 bg-bg-secondary p-6 rounded-lg">
-              <h3 className="font-mono text-xs uppercase tracking-wider text-accent-yellow mb-2">Phase 2</h3>
-              <p className="text-sm text-text-secondary">Vote and discuss to identify the infected player among you.</p>
-            </div>
-            <div className="border border-gray-700 bg-bg-secondary p-6 rounded-lg">
-              <h3 className="font-mono text-xs uppercase tracking-wider text-accent-purple mb-2">Phase 3</h3>
-              <p className="text-sm text-text-secondary">Submit ZK proofs to reveal your status and win the game.</p>
-            </div>
-          </div>
-        </section>
+          {/* Description */}
+          <p className="text-lg sm:text-xl text-text-secondary max-w-2xl mx-auto">
+            Deceive, deduce, and defeat in a blockchain-powered game of hidden identities. Hunt for Patient Zero or spread the plague before the truth is revealed.
+          </p>
 
-        {/* Stats Section */}
-        <section className="border border-gray-700 bg-bg-secondary p-8 rounded-lg">
-          <div className="grid gap-8 sm:grid-cols-3 text-center">
-            <div>
-              <p className="font-display text-3xl text-accent-red">8 Players</p>
-              <p className="mt-2 text-xs font-mono uppercase tracking-wider text-text-muted">per round</p>
-            </div>
-            <div>
-              <p className="font-display text-3xl text-accent-yellow">3 Phases</p>
-              <p className="mt-2 text-xs font-mono uppercase tracking-wider text-text-muted">per game</p>
-            </div>
-            <div>
-              <p className="font-display text-3xl text-accent-purple">ZK Proofs</p>
-              <p className="mt-2 text-xs font-mono uppercase tracking-wider text-text-muted">verified on-chain</p>
-            </div>
-          </div>
-        </section>
-
-        {/* CTA Section */}
-        <section className="space-y-6">
-          <div className="border border-accent-green bg-bg-secondary p-8 rounded-lg">
-            <h2 className="font-display text-2xl text-text-primary mb-3">Ready to Play?</h2>
-            <p className="text-sm text-text-secondary mb-6 max-w-lg">
-              Join the network of players hunting for Patient Zero. Connect your Stellar wallet and start playing today.
-            </p>
-            <Link
-              href="/lobby"
-              className="inline-block px-6 py-3 text-sm font-bold uppercase border-2 border-accent-green text-accent-green hover:bg-accent-green hover:text-black transition-colors"
-            >
-              Enter Lobby
+          {/* CTA Buttons */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8">
+            <Link href="/lobby" className="btn-premium rounded-lg">
+              Play Now
+            </Link>
+            <Link href="#features" className="btn-secondary rounded-lg">
+              Learn More
             </Link>
           </div>
-        </section>
-      </div>
+
+          {/* Stats Row */}
+          <div className="grid grid-cols-3 gap-4 pt-12 max-w-2xl mx-auto">
+            <div className="card-premium p-4">
+              <p className="font-display text-3xl text-accent-cyan">8</p>
+              <p className="text-xs text-text-muted mt-2 uppercase">Players</p>
+            </div>
+            <div className="card-premium p-4">
+              <p className="font-display text-3xl text-accent-lime">3</p>
+              <p className="text-xs text-text-muted mt-2 uppercase">Phases</p>
+            </div>
+            <div className="card-premium p-4">
+              <p className="font-display text-3xl text-accent-purple">ZK</p>
+              <p className="text-xs text-text-muted mt-2 uppercase">Proofs</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section id="features" className="py-24 px-4 bg-gradient-to-b from-transparent via-accent-purple/5 to-transparent">
+        <div className="max-w-6xl mx-auto space-y-16">
+          <div className="text-center space-y-4 animate-slide-in-left">
+            <h2 className="font-display text-4xl sm:text-5xl font-bold text-text-primary">
+              How It Works
+            </h2>
+            <p className="text-lg text-text-secondary max-w-2xl mx-auto">
+              Three phases of deception, discussion, and proof
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              { phase: '01', title: 'Room Creation', desc: 'Create or join a game room. Connect your wallet and stake your assets.' },
+              { phase: '02', title: 'Vote & Discuss', desc: 'Discuss with players and vote to identify who is infected.' },
+              { phase: '03', title: 'ZK Proofs', desc: 'Submit cryptographic proofs to prove your innocence on-chain.' },
+            ].map((item, idx) => (
+              <div
+                key={item.phase}
+                className="card-premium p-8 space-y-4 group hover:scale-105 transition-transform"
+                style={{ animationDelay: `${idx * 0.2}s` }}
+              >
+                <p className="font-mono text-sm text-accent-cyan group-hover:text-accent-pink transition-colors">
+                  Phase {item.phase}
+                </p>
+                <h3 className="font-display text-2xl font-bold text-text-primary">
+                  {item.title}
+                </h3>
+                <p className="text-text-secondary">
+                  {item.desc}
+                </p>
+                <div className="h-1 w-12 bg-gradient-to-r from-accent-purple to-accent-pink group-hover:w-full transition-all" />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Game Mechanics */}
+      <section className="py-24 px-4">
+        <div className="max-w-6xl mx-auto space-y-16">
+          <div className="text-center space-y-4 animate-slide-in-right">
+            <h2 className="font-display text-4xl sm:text-5xl font-bold text-text-primary">
+              Game Mechanics
+            </h2>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            <div className="card-premium p-8 space-y-4">
+              <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-accent-purple to-accent-pink flex items-center justify-center text-2xl">
+                🎭
+              </div>
+              <h3 className="font-display text-2xl font-bold">Roles</h3>
+              <p className="text-text-secondary">
+                Be assigned as either a Citizen hunting for Patient Zero, or the infected trying to hide in plain sight.
+              </p>
+            </div>
+
+            <div className="card-premium p-8 space-y-4">
+              <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-accent-cyan to-accent-lime flex items-center justify-center text-2xl">
+                🔐
+              </div>
+              <h3 className="font-display text-2xl font-bold">Cryptographic Proofs</h3>
+              <p className="text-text-secondary">
+                Use Noir zero-knowledge proofs to prove your innocence without revealing your role.
+              </p>
+            </div>
+
+            <div className="card-premium p-8 space-y-4">
+              <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-accent-coral to-accent-pink flex items-center justify-center text-2xl">
+                💰
+              </div>
+              <h3 className="font-display text-2xl font-bold">Stake & Earn</h3>
+              <p className="text-text-secondary">
+                Stake your XLM tokens. Winners claim the escrow pool. Fair, transparent, and on-chain.
+              </p>
+            </div>
+
+            <div className="card-premium p-8 space-y-4">
+              <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-accent-lime to-accent-cyan flex items-center justify-center text-2xl">
+                ⛓️
+              </div>
+              <h3 className="font-display text-2xl font-bold">Soroban Contracts</h3>
+              <p className="text-text-secondary">
+                Powered by Stellar Soroban smart contracts for trustless, automated game settlement.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-24 px-4 bg-gradient-to-r from-accent-purple/10 via-accent-cyan/10 to-accent-pink/10">
+        <div className="max-w-4xl mx-auto text-center space-y-8 animate-float-up">
+          <h2 className="font-display text-4xl sm:text-5xl font-bold text-text-primary">
+            Ready to Play?
+          </h2>
+          <p className="text-lg text-text-secondary">
+            Join thousands of players in the world's first decentralized social deduction game.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link href="/lobby" className="btn-premium rounded-lg px-8 py-4">
+              Start Playing
+            </Link>
+            <Link href="/leaderboard" className="btn-secondary rounded-lg px-8 py-4">
+              View Rankings
+            </Link>
+          </div>
+        </div>
+      </section>
     </main>
   )
 }

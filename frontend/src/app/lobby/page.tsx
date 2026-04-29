@@ -1,87 +1,215 @@
+import Link from 'next/link'
 import { SiteNav } from '@/components/ui/site-nav'
 
 export default function LobbyPage() {
-  const rooms = [
-    { name: 'Genesis Lobby', players: '4/8', status: 'online' },
-    { name: 'Infection Testnet', players: '2/6', status: 'idle' },
-    { name: 'Zero Proof Squad', players: '5/10', status: 'alert' },
+  const activeRooms = [
+    { id: 1, name: 'Genesis Lobby', players: '4/8', status: 'online', theme: 'purple' },
+    { id: 2, name: 'Infection Testnet', players: '2/6', status: 'idle', theme: 'cyan' },
+    { id: 3, name: 'Zero Proof Squad', players: '5/10', status: 'alert', theme: 'lime' },
+    { id: 4, name: 'Stellar Champions', players: '6/8', status: 'online', theme: 'pink' },
+    { id: 5, name: 'Noir Protocols', players: '3/8', status: 'idle', theme: 'coral' },
+    { id: 6, name: 'Deduction Masters', players: '7/10', status: 'online', theme: 'purple' },
   ]
 
+  const getAccentColor = (theme: string) => {
+    const colors: Record<string, { accent: string; glow: string }> = {
+      purple: { accent: 'accent-purple', glow: 'shadow-glow-purple' },
+      cyan: { accent: 'accent-cyan', glow: 'shadow-glow-cyan' },
+      lime: { accent: 'accent-lime', glow: 'shadow-glow-lime' },
+      pink: { accent: 'accent-pink', glow: 'shadow-glow-purple' },
+      coral: { accent: 'accent-coral', glow: 'shadow-glow-coral' },
+    }
+    return colors[theme] || colors.purple
+  }
+
   return (
-    <main className="min-h-screen px-4 py-8 sm:px-8 sm:py-12">
-      <div className="mx-auto flex w-full max-w-4xl flex-col gap-16">
-        <SiteNav currentPath="/lobby" />
+    <main className="min-h-screen">
+      <SiteNav currentPath="/lobby" />
 
-        <header className="space-y-2">
-          <h1 className="font-display text-4xl sm:text-5xl text-text-primary">Active Rooms</h1>
-          <p className="text-sm text-text-secondary">Create a new game or join an existing room.</p>
-        </header>
+      {/* Hero Header */}
+      <section className="relative overflow-hidden px-4 py-16 sm:py-24 border-b border-accent-purple/30">
+        <div className="absolute inset-0 -z-10">
+          <div className="absolute top-0 left-1/3 w-64 h-64 bg-accent-purple/10 rounded-full blur-3xl" />
+          <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-accent-cyan/10 rounded-full blur-3xl" />
+        </div>
 
-        <section className="grid gap-12 md:grid-cols-[1fr_1.2fr]">
-          {/* Create Room Card */}
-          <div className="space-y-4">
-            <h2 className="font-display text-xl text-text-primary">Create Room</h2>
-            <div className="border border-gray-700 bg-bg-secondary p-6 rounded-lg space-y-4">
-              <div className="space-y-3">
-                <input
-                  type="text"
-                  placeholder="Night Shift"
-                  className="w-full border border-gray-700 bg-bg-tertiary px-3 py-2 text-sm text-text-primary placeholder-text-muted rounded focus:outline-none focus:border-accent-red"
-                />
-                <div className="grid grid-cols-2 gap-3">
-                  <input
-                    type="text"
-                    placeholder="6 players"
-                    className="border border-gray-700 bg-bg-tertiary px-3 py-2 text-sm text-text-primary placeholder-text-muted rounded focus:outline-none focus:border-accent-yellow"
-                  />
-                  <input
-                    type="text"
-                    placeholder="10 XLM"
-                    className="border border-gray-700 bg-bg-tertiary px-3 py-2 text-sm text-text-primary placeholder-text-muted rounded focus:outline-none focus:border-accent-purple"
-                  />
-                </div>
-              </div>
-              <button className="w-full border border-accent-red px-4 py-2 text-sm font-bold uppercase text-accent-red hover:bg-accent-red hover:text-white transition-colors">
-                Create Room
-              </button>
-              <button className="w-full border border-accent-purple px-4 py-2 text-sm font-bold uppercase text-accent-purple hover:bg-accent-purple hover:text-white transition-colors">
-                Connect Wallet
-              </button>
-              <div className="grid grid-cols-2 gap-4 pt-4 border-t border-gray-700">
-                <div className="text-center">
-                  <p className="text-xs font-mono uppercase tracking-wider text-text-muted mb-1">Stake</p>
-                  <p className="font-display text-2xl text-text-primary">10</p>
-                </div>
-                <div className="text-center">
-                  <p className="text-xs font-mono uppercase tracking-wider text-text-muted mb-1">Max Players</p>
-                  <p className="font-display text-2xl text-text-primary">8</p>
-                </div>
-              </div>
-            </div>
-          </div>
+        <div className="max-w-6xl mx-auto text-center space-y-4">
+          <h1 className="font-display text-5xl sm:text-6xl font-bold text-text-primary">
+            Active Rooms
+          </h1>
+          <p className="text-lg text-text-secondary max-w-2xl mx-auto">
+            Create a new room or join an existing game. Choose your strategy and compete for the prize pool.
+          </p>
+        </div>
+      </section>
 
-          {/* Join Room Card */}
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <h2 className="font-display text-xl text-text-primary">Join a Room</h2>
-              <span className="text-xs font-mono text-text-muted">{rooms.length} online</span>
-            </div>
-            <div className="space-y-3">
-              {rooms.map((room) => (
-                <div key={room.name} className="border border-gray-700 bg-bg-secondary p-4 rounded-lg flex items-center justify-between">
-                  <div className="flex-1">
-                    <p className="text-sm font-bold text-text-primary">{room.name}</p>
-                    <p className="text-xs text-text-muted mt-1">{room.players} players</p>
+      {/* Main Content */}
+      <section className="px-4 py-20">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid lg:grid-cols-[350px_1fr] gap-12">
+            {/* Create Room Panel */}
+            <div className="space-y-6">
+              <div className="card-premium p-8 space-y-6">
+                <div>
+                  <h2 className="font-display text-2xl font-bold text-text-primary mb-2">
+                    Start a Game
+                  </h2>
+                  <p className="text-sm text-text-muted">Set up a new room</p>
+                </div>
+
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-xs font-mono uppercase tracking-wider text-text-muted mb-2">
+                      Room Name
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Night Shift Lobby"
+                      className="input-premium w-full"
+                    />
                   </div>
-                  <button className="ml-4 border border-accent-green px-3 py-1 text-xs font-bold uppercase text-accent-green hover:bg-accent-green hover:text-black transition-colors">
-                    Join
+
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs font-mono uppercase tracking-wider text-text-muted mb-2">
+                        Players
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="6"
+                        className="input-premium w-full"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-mono uppercase tracking-wider text-text-muted mb-2">
+                        Stake
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="10 XLM"
+                        className="input-premium w-full"
+                      />
+                    </div>
+                  </div>
+
+                  <button className="btn-premium w-full rounded-lg">
+                    Create Room
+                  </button>
+
+                  <button className="btn-secondary w-full rounded-lg">
+                    Connect Wallet
                   </button>
                 </div>
-              ))}
+
+                {/* Stats */}
+                <div className="border-t border-accent-purple/30 pt-6 space-y-3">
+                  <div className="flex justify-between items-center">
+                    <span className="text-xs font-mono uppercase tracking-wider text-text-muted">Skill Level</span>
+                    <span className="font-display text-lg text-accent-purple">Intermediate</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-xs font-mono uppercase tracking-wider text-text-muted">Rounds</span>
+                    <span className="font-display text-lg text-accent-cyan">7</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Quick Stats */}
+              <div className="space-y-3">
+                <h3 className="text-sm font-mono uppercase tracking-wider text-text-muted">Your Stats</h3>
+                <div className="card-premium p-4 space-y-2">
+                  <div className="flex justify-between">
+                    <span className="text-sm text-text-secondary">Games Played</span>
+                    <span className="font-bold text-accent-cyan">24</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-sm text-text-secondary">Win Rate</span>
+                    <span className="font-bold text-accent-lime">62%</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-sm text-text-secondary">Total Earnings</span>
+                    <span className="font-bold text-accent-pink">245.8 XLM</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Games Grid */}
+            <div className="space-y-6">
+              <div className="flex items-center justify-between">
+                <h2 className="font-display text-2xl font-bold text-text-primary">
+                  Join a Game
+                </h2>
+                <span className="text-sm text-text-muted">{activeRooms.length} rooms available</span>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-6">
+                {activeRooms.map((room) => {
+                  const colors = getAccentColor(room.theme)
+                  return (
+                    <div
+                      key={room.id}
+                      className={`card-premium p-6 group hover:scale-105 transition-transform cursor-pointer space-y-4 border-2 border-${colors.accent}/50`}
+                    >
+                      <div className="flex items-start justify-between">
+                        <div className="space-y-2">
+                          <h3 className="font-display text-xl font-bold text-text-primary group-hover:text-accent-purple transition-colors">
+                            {room.name}
+                          </h3>
+                          <p className={`text-xs font-mono uppercase tracking-wider text-${colors.accent}`}>
+                            {room.status === 'online' && '🟢 Active'}
+                            {room.status === 'idle' && '🟡 Waiting'}
+                            {room.status === 'alert' && '🔴 Joining'}
+                          </p>
+                        </div>
+                        <div className="text-right">
+                          <p className="font-display text-lg text-accent-cyan">{room.players}</p>
+                          <p className="text-xs text-text-muted">players</p>
+                        </div>
+                      </div>
+
+                      <div className="h-1 w-8 bg-gradient-to-r from-accent-purple to-accent-pink group-hover:w-full transition-all" />
+
+                      <div className="grid grid-cols-2 gap-3 pt-2">
+                        <div className="space-y-1">
+                          <p className="text-xs font-mono uppercase tracking-wider text-text-muted">Stake</p>
+                          <p className="font-display text-lg text-text-primary">10 XLM</p>
+                        </div>
+                        <div className="space-y-1">
+                          <p className="text-xs font-mono uppercase tracking-wider text-text-muted">Prize</p>
+                          <p className="font-display text-lg text-accent-lime">80 XLM</p>
+                        </div>
+                      </div>
+
+                      <Link
+                        href={`/game?room=${room.id}`}
+                        className="btn-secondary w-full rounded-lg mt-4 block text-center"
+                      >
+                        Join Game
+                      </Link>
+                    </div>
+                  )
+                })}
+              </div>
             </div>
           </div>
-        </section>
-      </div>
+        </div>
+      </section>
+
+      {/* Footer CTA */}
+      <section className="px-4 py-16 border-t border-accent-purple/30 bg-gradient-to-r from-accent-purple/5 via-accent-cyan/5 to-accent-pink/5">
+        <div className="max-w-4xl mx-auto text-center space-y-6">
+          <h2 className="font-display text-3xl font-bold text-text-primary">
+            First Time Playing?
+          </h2>
+          <p className="text-lg text-text-secondary">
+            Learn the rules and strategies before joining a competitive game.
+          </p>
+          <Link href="/#features" className="btn-secondary rounded-lg inline-block">
+            Read the Guide
+          </Link>
+        </div>
+      </section>
     </main>
   )
 }

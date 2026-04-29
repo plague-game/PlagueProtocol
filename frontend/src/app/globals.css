@@ -7,21 +7,32 @@
   --font-body: 'Space Grotesk', sans-serif;
   --font-mono: 'Space Mono', monospace;
   
-  /* Dark theme color tokens */
-  --bg-primary: #0f0f0f;
-  --bg-secondary: #1a1a1a;
-  --bg-tertiary: #242424;
+  /* Premium dark theme */
+  --bg-primary: #0a0e27;
+  --bg-secondary: #111a35;
+  --bg-tertiary: #1a2847;
+  --bg-card: rgba(20, 30, 60, 0.8);
   --text-primary: #ffffff;
-  --text-secondary: #b8b8b8;
-  --text-muted: #777777;
-  --accent-red: #ef4444;
-  --accent-yellow: #eab308;
-  --accent-green: #22c55e;
+  --text-secondary: #a0aec0;
+  --text-muted: #718096;
+  
+  /* Vibrant accent palette */
   --accent-purple: #a855f7;
-  --glow-red: 0 0 20px rgba(239, 68, 68, 0.4);
-  --glow-yellow: 0 0 20px rgba(234, 179, 8, 0.3);
-  --glow-green: 0 0 20px rgba(34, 197, 94, 0.3);
-  --glow-purple: 0 0 20px rgba(168, 85, 247, 0.3);
+  --accent-cyan: #06b6d4;
+  --accent-lime: #84cc16;
+  --accent-coral: #ff6b6b;
+  --accent-pink: #ec4899;
+  
+  /* Glow effects */
+  --glow-purple: 0 0 30px rgba(168, 85, 247, 0.5);
+  --glow-cyan: 0 0 30px rgba(6, 182, 212, 0.5);
+  --glow-lime: 0 0 30px rgba(132, 204, 22, 0.4);
+  --glow-coral: 0 0 30px rgba(255, 107, 107, 0.5);
+  
+  /* Gradient overlays */
+  --gradient-purple-pink: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
+  --gradient-cyan-purple: linear-gradient(135deg, #06b6d4 0%, #a855f7 100%);
+  --gradient-lime-cyan: linear-gradient(135deg, #84cc16 0%, #06b6d4 100%);
 }
 
 @layer base {
@@ -39,9 +50,9 @@
     color: var(--text-primary);
     min-height: 100vh;
     background-image:
-      radial-gradient(circle at 10% 50%, rgba(239, 68, 68, 0.08) 0, rgba(239, 68, 68, 0) 50%),
-      radial-gradient(circle at 90% 30%, rgba(168, 85, 247, 0.06) 0, rgba(168, 85, 247, 0) 50%),
-      radial-gradient(circle at 50% 100%, rgba(34, 197, 94, 0.04) 0, rgba(34, 197, 94, 0) 60%);
+      radial-gradient(circle at 20% 50%, rgba(168, 85, 247, 0.15) 0, rgba(168, 85, 247, 0) 50%),
+      radial-gradient(circle at 80% 20%, rgba(6, 182, 212, 0.1) 0, rgba(6, 182, 212, 0) 50%),
+      radial-gradient(circle at 50% 100%, rgba(132, 204, 22, 0.05) 0, rgba(132, 204, 22, 0) 60%);
   }
 
   /* Dark scrollbar with glow */
@@ -64,40 +75,64 @@
 }
 
 @layer components {
-  /* Dark game button base */
-  .btn-brutal {
-    @apply border-2 border-gray-600 font-mono font-bold uppercase tracking-wider
-           transition-all duration-200 cursor-pointer select-none
-           bg-var(--bg-secondary) text-var(--text-primary);
-    box-shadow: var(--glow-purple);
+  /* Premium gradient button */
+  .btn-premium {
+    @apply relative px-6 py-3 font-bold uppercase tracking-wide text-sm transition-all duration-300 cursor-pointer;
+    background: var(--gradient-purple-pink);
+    box-shadow: var(--glow-purple), 0 10px 30px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(168, 85, 247, 0.5);
   }
 
-  .btn-brutal:hover {
-    @apply border-accent-purple;
-    box-shadow: var(--glow-purple), inset 0 0 10px rgba(168, 85, 247, 0.2);
+  .btn-premium:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--glow-purple), 0 20px 40px rgba(0, 0, 0, 0.5);
   }
 
-  .btn-brutal:active {
-    @apply scale-95;
+  .btn-premium:active {
+    transform: translateY(0);
   }
 
-  /* Dark card */
-  .card-brutal {
-    @apply border-2 border-gray-700 bg-var(--bg-secondary) text-var(--text-primary);
-    box-shadow: var(--glow-purple);
+  /* Secondary button */
+  .btn-secondary {
+    @apply px-6 py-3 font-bold uppercase tracking-wide text-sm transition-all duration-300 cursor-pointer;
+    background: rgba(20, 30, 60, 0.8);
+    border: 2px solid var(--accent-cyan);
+    color: var(--accent-cyan);
+    box-shadow: var(--glow-cyan);
   }
 
-  /* Dark input */
-  .input-brutal {
-    @apply border-2 border-gray-700 bg-var(--bg-tertiary) font-mono px-4 py-2
-           text-var(--text-primary) placeholder-var(--text-muted)
-           focus:outline-none transition-all;
-    box-shadow: var(--glow-red);
+  .btn-secondary:hover {
+    background: rgba(6, 182, 212, 0.1);
+    box-shadow: var(--glow-cyan), 0 10px 30px rgba(0, 0, 0, 0.3);
   }
 
-  .input-brutal:focus {
-    @apply border-accent-red;
-    box-shadow: var(--glow-red), inset 0 0 8px rgba(239, 68, 68, 0.1);
+  /* Premium card with frosted glass effect */
+  .card-premium {
+    background: var(--bg-card);
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    @apply rounded-xl transition-all duration-300;
+  }
+
+  .card-premium:hover {
+    border-color: rgba(168, 85, 247, 0.6);
+    box-shadow: var(--glow-purple), 0 12px 40px rgba(0, 0, 0, 0.5);
+  }
+
+  /* Premium input */
+  .input-premium {
+    @apply px-4 py-3 rounded-lg font-body text-sm transition-all duration-300;
+    background: rgba(20, 30, 60, 0.8);
+    border: 1px solid rgba(6, 182, 212, 0.3);
+    color: var(--text-primary);
+    backdrop-filter: blur(10px);
+  }
+
+  .input-premium:focus {
+    outline: none;
+    border-color: var(--accent-cyan);
+    box-shadow: var(--glow-cyan), inset 0 0 20px rgba(6, 182, 212, 0.1);
   }
 
   /* Player token */
@@ -238,10 +273,10 @@
 
 @keyframes glow-pulse {
   0%, 100% {
-    box-shadow: var(--glow-red);
+    box-shadow: var(--glow-purple);
   }
   50% {
-    box-shadow: var(--glow-red), inset 0 0 10px rgba(239, 68, 68, 0.2);
+    box-shadow: var(--glow-purple), 0 0 40px rgba(168, 85, 247, 0.6);
   }
 }
 
@@ -251,5 +286,49 @@
   }
   50% {
     opacity: 0.8;
+  }
+}
+
+@keyframes float-up {
+  0% {
+    transform: translateY(0px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(-20px);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in-left {
+  0% {
+    transform: translateX(-50px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in-right {
+  0% {
+    transform: translateX(50px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes scale-in {
+  0% {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
   }
 }
