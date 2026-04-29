@@ -1,4 +1,5 @@
 import { SiteNav } from '@/components/ui/site-nav'
+import { WalletPanel } from '@/components/wallet/wallet-panel'
 
 export default function LobbyPage() {
   return (
@@ -19,7 +20,8 @@ export default function LobbyPage() {
         </header>
 
         <section className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
-          <article className="card-brutal rise-in bg-plague-black p-5 text-plague-white" style={{ animationDelay: '100ms' }}>
+          <div className="flex flex-col gap-6">
+            <article className="card-brutal rise-in bg-plague-black p-5 text-plague-white" style={{ animationDelay: '100ms' }}>
             <h2 className="font-display text-3xl leading-none">Create Room</h2>
             <div className="mt-4 space-y-3">
               <input
@@ -64,7 +66,10 @@ export default function LobbyPage() {
                 <p className="mt-2 font-display text-3xl leading-none">ZK</p>
               </div>
             </div>
-          </article>
+            </article>
+
+            <WalletPanel variant="dark" />
+          </div>
 
           <article className="hud-panel rise-in p-5" style={{ animationDelay: '180ms' }}>
             <div className="flex items-end justify-between gap-4">

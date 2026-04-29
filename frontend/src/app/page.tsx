@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { SiteNav } from '@/components/ui/site-nav'
+import { WalletPanel } from '@/components/wallet/wallet-panel'
 
 export default function HomePage() {
   return (
@@ -169,6 +170,31 @@ export default function HomePage() {
             <p className="mt-4 max-w-2xl font-mono text-sm text-plague-white/95">
               PlagueProtocol is not just a game concept. It is a contributor-friendly surface for wallet flows, Soroban game state, realtime coordination, and zero-knowledge primitives to meet in one open-source product.
             </p>
+          </article>
+        </section>
+
+        <section className="grid gap-5 lg:grid-cols-[1.05fr_0.95fr]">
+          <WalletPanel variant="light" />
+
+          <article className="hud-panel rise-in bg-plague-black p-6 text-plague-white" style={{ animationDelay: '580ms' }}>
+            <p className="font-mono text-xs uppercase tracking-[0.2em] text-plague-white/70">Role deck preview</p>
+            <div className="mt-5 grid gap-4 sm:grid-cols-3">
+              <div className="rotate-[-4deg] border-3 border-plague-white bg-plague-yellow p-4 text-plague-black shadow-[6px_6px_0px_#f5f0e8]">
+                <p className="font-mono text-[10px] uppercase tracking-[0.18em]">Clean</p>
+                <p className="mt-2 font-display text-4xl leading-none">CITIZEN</p>
+                <p className="mt-3 font-mono text-xs">Work with the table, expose infection, survive the vote.</p>
+              </div>
+              <div className="translate-y-2 border-3 border-plague-white bg-plague-red p-4 text-plague-white shadow-[6px_6px_0px_#f5c518]">
+                <p className="font-mono text-[10px] uppercase tracking-[0.18em]">Hidden</p>
+                <p className="mt-2 font-display text-4xl leading-none">PATIENT ZERO</p>
+                <p className="mt-3 font-mono text-xs">Spread infection quietly and survive consensus long enough to win the pool.</p>
+              </div>
+              <div className="rotate-[3deg] border-3 border-plague-white bg-plague-white p-4 text-plague-black shadow-[6px_6px_0px_#e63329]">
+                <p className="font-mono text-[10px] uppercase tracking-[0.18em]">Proof</p>
+                <p className="mt-2 font-display text-4xl leading-none">INNOCENCE</p>
+                <p className="mt-3 font-mono text-xs">Use ZK flows to prove claims without revealing the underlying secret.</p>
+              </div>
+            </div>
           </article>
         </section>
       </div>
