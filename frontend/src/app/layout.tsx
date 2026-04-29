@@ -36,7 +36,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${displayFont.variable} ${bodyFont.variable} ${monoFont.variable}`}>
-      <body className="bg-plague-white text-plague-black font-body antialiased">
+      <body className="antialiased">
         {children}
       </body>
     </html>
