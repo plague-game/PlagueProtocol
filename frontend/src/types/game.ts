@@ -16,21 +16,16 @@ export interface Player {
   /**
    * Proof economy:
    * - Each player gets exactly 1 free proof per game.
-   * - Additional proofs require a fee (proofFee from RoomConfig).
+   * - Additional proofs require a fee (proofFee from RoomConfig) — added to pot.
    * - Max 1 proof submitted per player per round (enforced by nullifier).
-   * - Proofs are pre-generated client-side; submitted only during a voting
-   *   tie where the player is one of the tied top-vote candidates.
-   * - Only CLEAN players can generate a valid innocence proof.
+   * - Proofs are submitted during the DISCUSSION phase ONLY.
+   *   Submission closes when voting opens — no proofs accepted during voting.
+   * - Only CLEAN players can produce a valid proof.
    *   Infected players fail the circuit's role == ROLE_CLEAN assertion.
+   * - Strategic choice: you don't know yet if you'll be the top-voted target.
    */
   freeProofUsed: boolean
   proofsSubmittedTotal: number
-  /**
-   * Set by contract at end of a round where player survived an
-   * all-protected tie. Player becomes infected at the START of the
-   * following round. Backend uses this flag to assign infection.
-   */
-  pendingInfectionNextRound: boolean
 }
 
 // ─── Room ──────────────────────────────────────────────────────────────────
@@ -64,49 +59,72 @@ export interface Round {
    * Address of player newly infected this round.
    * Assigned deterministically by backend:
    *   target = eligible_clean_players[ hash(roomId, round, prevTxHash) % count ]
-   * Special case: if previous round ended in an all-protected tie, target is
-   * selected from among those tied protected survivors instead.
-   * Players are notified of their OWN infection status only (not who infected them).
+   * Special case: if previous round ended in an all-proofs-tie, one of the
+   * tied survivors is infected immediately (not next round — see VotingResolution).
+   * Players are notified of their OWN infection status only (not the source).
    */
   infectedThisRound: string[]
   eliminatedThisRound: string[]
   votes: Vote[]
   /**
    * Proof submissions this round.
-   * Only accepted during Voting phase when player is a tied top-vote candidate.
-   * Proof is generated client-side any time before submission.
+   * Accepted ONLY during Discussion phase — window closes when voting opens.
+   * Max 1 per player per round (nullifier-enforced).
+   * Strategic gamble: player decides before seeing who gets the most votes.
    */
   proofSubmissions: ProofSubmission[]
-  /**
-   * Tie resolution outcome, if a tie occurred.
-   * nullifier-protected; does not reveal which player had proof.
-   */
-  tieResolution?: TieResolution
+  /** Voting resolution outcome — always set after Reveal phase. */
+  votingResolution?: VotingResolution
   drainAmount: bigint
   startedAt: number
   phaseEndsAt: number
 }
 
-// ─── Tie Resolution ────────────────────────────────────────────────────────
+// ─── Voting Resolution ─────────────────────────────────────────────────────
 
-export type TieOutcome =
-  | 'eliminated_unprotected'   // tie broken by eliminating unprotected candidate
-  | 'all_protected_penalty'    // all tied had proofs; nobody eliminated, penalty applied
-  | 'all_protected_infection'  // deterministic infection assigned to one tied survivor
+/**
+ * Outcome of vote tallying + proof resolution after each round.
+ *
+ * Proof submission window: Discussion phase only (closes when voting opens).
+ * A player's submitted proof is active for that round's resolution.
+ *
+ * Resolution cases:
+ *
+ *   eliminated
+ *     Single top-voted player, no proof → eliminated.
+ *
+ *   saved_by_proof
+ *     Single top-voted player submitted a valid proof → NOT eliminated.
+ *     Game continues; normal system infection happens next round.
+ *
+ *   tie_unprotected_eliminated
+ *     Tied top-vote candidates; at least one has no proof.
+ *     Unprotected candidate(s) eliminated (deterministic if multiple:
+ *     lowest hash(address)). Protected candidates survive.
+ *
+ *   tie_all_proofs_infected
+ *     Tied top-vote candidates; ALL submitted valid proofs.
+ *     Nobody eliminated. System immediately infects one of the tied
+ *     players at random: hash(roomId, round, prevTxHash) % len(tied).
+ *     Public event carries only a generic message — no proof hints.
+ */
+export type VotingOutcome =
+  | 'eliminated'
+  | 'saved_by_proof'
+  | 'tie_unprotected_eliminated'
+  | 'tie_all_proofs_infected'
 
-export interface TieResolution {
-  outcome: TieOutcome
-  /** Addresses that were tied at top votes */
-  tiedCandidates: string[]
-  /**
-   * Address selected for infection next round (only set when outcome
-   * is all_protected_infection). Revealed only after round ends.
-   */
-  infectionTarget?: string
-  /**
-   * Generic protocol message broadcast to all players — does NOT
-   * identify which players had proof protection.
-   */
+export interface VotingResolution {
+  outcome: VotingOutcome
+  /** All candidates that reached the top vote count */
+  topCandidates: string[]
+  /** Player eliminated (set for eliminated / tie_unprotected_eliminated) */
+  eliminated?: string
+  /** Player whose proof saved them from elimination (set for saved_by_proof) */
+  savedPlayer?: string
+  /** Player randomly infected from tied group (set for tie_all_proofs_infected) */
+  infectedFromTie?: string
+  /** Generic message broadcast to room — never names proof holders */
   publicMessage: string
 }
 
@@ -202,12 +220,13 @@ export type GameEventType =
   | 'round_started'
   | 'phase_changed'
   | 'vote_cast'
-  | 'player_eliminated'
-  | 'player_infected'          // only sent to the infected player (private)
-  | 'proof_window_open'        // broadcast: proof generation window started
-  | 'tie_detected'             // broadcast: tie at top votes, proof submissions accepted
-  | 'tie_resolved'             // broadcast: generic resolution message, no role hints
-  | 'infection_assigned'       // only sent to newly infected player (private)
+  | 'proof_window_open'        // broadcast: discussion phase started, proofs now accepted
+  | 'proof_window_closed'      // broadcast: voting about to open, no more proof submissions
+  | 'proof_submitted'          // broadcast: a player submitted a proof (address known, outcome unknown)
+  | 'player_eliminated'        // broadcast: player eliminated after vote resolution
+  | 'player_saved_by_proof'    // broadcast: top-voted player was saved (proof existed)
+  | 'vote_resolved'            // broadcast: generic resolution summary, no proof hints
+  | 'infection_assigned'       // private: only sent to the newly infected player
   | 'game_ended'
   | 'pot_drained'
 
