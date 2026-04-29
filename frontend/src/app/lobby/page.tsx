@@ -1,3 +1,4 @@
+import { LobbyPosters } from '@/components/game/illustrations'
 import { SiteNav } from '@/components/ui/site-nav'
 import { WalletPanel } from '@/components/wallet/wallet-panel'
 
@@ -103,6 +104,10 @@ export default function LobbyPage() {
               </li>
             </ul>
           </article>
+        </section>
+
+        <section className="rise-in" style={{ animationDelay: '230ms' }}>
+          <LobbyPosters />
         </section>
 
         <section className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">

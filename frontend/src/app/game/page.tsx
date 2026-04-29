@@ -1,3 +1,4 @@
+import { MatchArenaGraphic } from '@/components/game/illustrations'
 import { SiteNav } from '@/components/ui/site-nav'
 
 export default function GamePage({ params }: { params: { roomId: string } }) {
@@ -46,6 +47,10 @@ export default function GamePage({ params }: { params: { roomId: string } }) {
               <span className="border-3 border-plague-white px-2 py-1 font-mono text-xs uppercase tracking-[0.18em]">
                 zone delta
               </span>
+            </div>
+
+            <div className="mt-5">
+              <MatchArenaGraphic />
             </div>
 
             <div className="mt-5 rounded-[32px] border-3 border-plague-white bg-[#1c1714] p-4 sm:p-6">

@@ -189,3 +189,101 @@ export function FactionBanner() {
     </div>
   )
 }
+
+type RoomPoster = {
+  name: string
+  status: 'open' | 'filling' | 'full'
+  accent: 'yellow' | 'red' | 'black'
+}
+
+const roomPosters: RoomPoster[] = [
+  { name: 'Genesis Lobby', status: 'open', accent: 'yellow' },
+  { name: 'Infection Testnet', status: 'filling', accent: 'black' },
+  { name: 'Zero Proof Squad', status: 'full', accent: 'red' },
+]
+
+function posterClass(accent: RoomPoster['accent']) {
+  if (accent === 'red') {
+    return 'bg-plague-red text-plague-white'
+  }
+
+  if (accent === 'black') {
+    return 'bg-plague-black text-plague-white'
+  }
+
+  return 'bg-plague-yellow text-plague-black'
+}
+
+export function LobbyPosters() {
+  return (
+    <div className="grid gap-4 md:grid-cols-3">
+      {roomPosters.map((room) => (
+        <article key={room.name} className={["rounded-[24px] border-3 border-plague-black p-4 shadow-brutal", posterClass(room.accent)].join(' ')}>
+          <div className="flex items-center justify-between gap-2">
+            <p className="font-mono text-[10px] uppercase tracking-[0.18em]">{room.status}</p>
+            <span className="status-dot online" />
+          </div>
+          <h3 className="mt-3 font-display text-3xl leading-none">{room.name}</h3>
+          <div className="mt-4 rounded-[18px] border-3 border-current/90 bg-white/10 p-2">
+            <svg viewBox="0 0 260 160" className="h-auto w-full" aria-hidden="true">
+              <rect x="10" y="10" width="240" height="140" rx="18" fill="none" stroke="currentColor" strokeWidth="4" opacity="0.7" />
+              <path d="M28 128 L76 68 L124 128" fill="none" stroke="currentColor" strokeWidth="7" strokeLinecap="round" />
+              <path d="M132 128 L180 82 L228 128" fill="none" stroke="currentColor" strokeWidth="7" strokeLinecap="round" />
+              <circle cx="80" cy="58" r="14" fill="currentColor" opacity="0.85" />
+              <circle cx="152" cy="54" r="14" fill="currentColor" opacity="0.65" />
+              <circle cx="206" cy="70" r="14" fill="currentColor" opacity="0.95" />
+            </svg>
+          </div>
+        </article>
+      ))}
+    </div>
+  )
+}
+
+export function MatchArenaGraphic() {
+  return (
+    <div className="rounded-[28px] border-3 border-plague-white bg-[#1c1714] p-4 sm:p-6">
+      <svg viewBox="0 0 700 420" className="h-auto w-full" role="img" aria-label="Stylized tactical arena for plague match">
+        <rect x="22" y="24" width="656" height="372" rx="34" fill="#171310" stroke="#f5f0e8" strokeWidth="8" />
+        <circle cx="350" cy="210" r="78" fill="#f5c518" stroke="#f5f0e8" strokeWidth="8" />
+        <circle cx="350" cy="210" r="34" fill="#e63329" stroke="#0a0a0a" strokeWidth="8" />
+
+        <path d="M350 132 L486 196 L434 324 L266 324 L214 196 Z" fill="none" stroke="#e63329" strokeWidth="10" strokeLinejoin="round" />
+
+        {[
+          [350, 96, '#f5c518', 'A1'],
+          [520, 166, '#f5f0e8', 'B2'],
+          [508, 304, '#e63329', 'C3'],
+          [192, 304, '#f5f0e8', 'D4'],
+          [184, 166, '#f5c518', 'E5'],
+          [350, 350, '#f5f0e8', 'F6'],
+        ].map(([x, y, color, label]) => (
+          <g key={String(label)}>
+            <circle cx={Number(x)} cy={Number(y)} r="30" fill={String(color)} stroke="#0a0a0a" strokeWidth="6" />
+            <text
+              x={Number(x)}
+              y={Number(y) + 8}
+              textAnchor="middle"
+              fontFamily="var(--font-mono)"
+              fontSize="20"
+              fontWeight="700"
+              fill={String(color) === '#e63329' ? '#f5f0e8' : '#0a0a0a'}
+            >
+              {String(label)}
+            </text>
+          </g>
+        ))}
+
+        <rect x="58" y="58" width="156" height="38" rx="12" fill="#f5f0e8" stroke="#0a0a0a" strokeWidth="5" />
+        <text x="136" y="82" textAnchor="middle" fontFamily="var(--font-mono)" fontSize="16" fontWeight="700" fill="#0a0a0a">
+          TIMER 00:48
+        </text>
+
+        <rect x="480" y="58" width="164" height="38" rx="12" fill="#e63329" stroke="#0a0a0a" strokeWidth="5" />
+        <text x="562" y="82" textAnchor="middle" fontFamily="var(--font-mono)" fontSize="16" fontWeight="700" fill="#f5f0e8">
+          PROOF WINDOW
+        </text>
+      </svg>
+    </div>
+  )
+}
