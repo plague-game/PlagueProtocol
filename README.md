@@ -1,8 +1,8 @@
-# 🦠 Plague — On-Chain Social Deduction
+# 🦠 PlagueProtocol — On-Chain Social Deduction
 
 > *Can you find Patient Zero before the infection spreads?*
 
-Plague is a fully decentralised, zero-knowledge social deduction game built on **Stellar/Soroban** smart contracts. Players stake XLM to join a room. One player is secretly assigned as **Patient Zero** via verifiable randomness. Each round, Patient Zero silently infects others. Infected players unknowingly drain the pot. The town must vote to eliminate suspects before infected players reach majority — or lose everything.
+PlagueProtocol is a fully decentralised, zero-knowledge social deduction game built on **Stellar/Soroban** smart contracts. Players stake XLM to join a room. One player is secretly assigned as **Patient Zero** via verifiable randomness. Each round, Patient Zero silently infects others. Infected players unknowingly drain the pot. The town must vote to eliminate suspects before infected players reach majority or lose everything.
 
 **No server knows who the thief is. No one can cheat the randomness. No one can lie about their role.**
 
@@ -23,7 +23,7 @@ Plague is a fully decentralised, zero-knowledge social deduction game built on *
 ## 🏗️ Architecture
 
 ```
-plague/
+PlagueProtocol/
 ├── frontend/          # Next.js 14 + TypeScript + Tailwind
 │   └── src/
 │       ├── app/       # App router pages (lobby, game, leaderboard)
@@ -45,6 +45,25 @@ plague/
     ├── circuits/      # Noir circuits (role_commitment, innocence_proof, infection_proof)
     └── keys/          # Trusted setup keys (not committed)
 ```
+
+---
+
+## ✅ Current Status
+
+- Frontend: responsive landing page and lobby scaffold shipped in `frontend/src/app`
+- Backend: room routes and socket handlers tracked in `backend/src`
+- Contracts: Soroban modules and tests tracked in `contracts/src` and `contracts/test`
+- ZK: Noir circuit scaffolding tracked in `zk/circuits`
+
+---
+
+## 🎥 Demo Readiness
+
+- Live demo URL: `coming soon`
+- Demo artifacts to include before grant review:
+   - 30-60s UI walkthrough clip
+   - Screenshots of landing, lobby, and round view
+   - Quick local run instructions
 
 ---
 
@@ -80,8 +99,8 @@ plague/
 ### Installation
 
 ```bash
-git clone https://github.com/yourusername/plague
-cd plague
+git clone https://github.com/plague-game/PlagueProtocol
+cd PlagueProtocol
 
 # Install all JS dependencies
 npm install
